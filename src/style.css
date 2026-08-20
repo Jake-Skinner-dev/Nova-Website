@@ -563,15 +563,6 @@ section { padding: 30px 0 120px; }
 .modal--article { max-width: 720px; }
 .modal--discovery { max-width: 760px; }
 .modal--discovery .modal-body { padding: 42px 32px 40px; }
-#cal-inline-widget {
-  border-radius: 18px;
-  border: 1px solid rgba(254, 190, 152, 0.22);
-  background: linear-gradient(160deg, rgba(254, 190, 152, 0.08), rgba(79, 82, 119, 0.1));
-  padding: 3px;
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
-}
-#cal-inline-widget iframe { border-radius: 15px; display: block; }
 .modal::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 130px; border-radius: 26px 26px 0 0;
   background: linear-gradient(160deg, rgba(254, 190, 152, 0.16), rgba(79, 82,119, 0.06) 70%, rgba(255, 255, 255, 0));
