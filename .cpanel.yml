@@ -12,5 +12,5 @@
 #      Node.js / npm install is required on the server.
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/USERNAME/public_html/
+    - export DEPLOYPATH=/home/gdfbv6wwir7u/public_html/
     - /bin/cp -R dist/. $DEPLOYPATH
