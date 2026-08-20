@@ -144,68 +144,16 @@ document.querySelectorAll("[data-open-contact]").forEach((el) => {
 });
 
 /* ---------------------------------------------------------------------
-   Discovery call modal — Cal.com booking widget (synced to Google
-   Calendar on Cal's side), themed to match the site instead of looking
-   like a bare Google Calendar page. Cal's embed script only loads the
-   first time the modal is opened, not on every page load.
+   Discovery call modal (Google Calendar appointment booking)
    --------------------------------------------------------------------- */
 const discoveryBackdrop = document.getElementById("discovery-backdrop");
-const CAL_LINK = "nova-social/discovery-call";
-let calEmbedLoaded = false;
-
-function loadCalEmbed() {
-  // Cal.com's official embed loader (cal.com/docs/embed), unchanged apart
-  // from being wrapped in a function so it only runs on first use.
-  (function (C, A, L) {
-    let p = function (a, ar) { a.q.push(ar); };
-    let d = C.document;
-    C.Cal = C.Cal || function () {
-      let cal = C.Cal;
-      let ar = arguments;
-      if (!cal.loaded) {
-        cal.ns = {};
-        cal.q = cal.q || [];
-        d.head.appendChild(d.createElement("script")).src = A;
-        cal.loaded = true;
-      }
-      if (ar[0] === L) {
-        const api = function () { p(api, arguments); };
-        const namespace = ar[1];
-        api.q = api.q || [];
-        if (typeof namespace === "string") {
-          cal.ns[namespace] = cal.ns[namespace] || api;
-          p(cal.ns[namespace], ar);
-          p(cal, ["initNamespace", namespace]);
-        } else {
-          p(cal, ar);
-        }
-        return;
-      }
-      p(cal, ar);
-    };
-  })(window, "https://app.cal.com/embed/embed.js", "init");
-
-  window.Cal("init", "discovery-call", { origin: "https://cal.com" });
-  window.Cal.ns["discovery-call"]("inline", {
-    elementOrSelector: "#cal-inline-widget",
-    calLink: CAL_LINK,
-    config: { layout: "month_view" }
-  });
-  window.Cal.ns["discovery-call"]("ui", {
-    theme: "dark",
-    cssVarsPerTheme: {
-      light: { "cal-brand": "#FEBE98" },
-      dark: { "cal-brand": "#FEBE98" }
-    },
-    hideEventTypeDetails: false,
-    layout: "month_view"
-  });
-}
+const discoveryFrame = document.getElementById("discovery-calendar-frame");
 
 function openDiscovery() {
-  if (!calEmbedLoaded) {
-    calEmbedLoaded = true;
-    loadCalEmbed();
+  // Only point the iframe at Google the first time it's opened, so a visitor
+  // who never clicks this never triggers a request to Google at all.
+  if (discoveryFrame && !discoveryFrame.src && discoveryFrame.dataset.src) {
+    discoveryFrame.src = discoveryFrame.dataset.src;
   }
   openModal(discoveryBackdrop);
 }

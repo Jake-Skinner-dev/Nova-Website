@@ -516,10 +516,19 @@
       <div class="modal-eyebrow">DISCOVERY CALL</div>
       <h2 id="discovery-modal-title">Find a time that works for you.</h2>
       <p class="modal-lede">Pick a slot below and it'll book straight into our calendar &mdash; no back-and-forth emails.</p>
-      <div id="cal-inline-widget" style="min-height:600px;"></div>
+      <!--
+        Replace https://calendar.app.google/kvTWvoA61DvP9XMb8 with the real booking page link:
+        Google Calendar → Create → Appointment schedule → Share → booking page link.
+      -->
+      <iframe
+        id="discovery-calendar-frame"
+        data-src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0Wmo-0tIQ5i5N0EB6OfPFhEUjAWULpnzMzfnO1xwLNUkGNbquOZVoSyk-yxE29SWjpqMx7V1yJ"
+        style="width:100%;height:600px;border:0;border-radius:16px;background:#fff;"
+        title="Book a discovery call"
+      ></iframe>
       <p class="field-hint" style="margin-top:14px;">
         Having trouble with the calendar?
-        <a href="https://cal.com/nova-social/discovery-call" target="_blank" rel="noopener noreferrer">Open it in a new tab</a>
+        <a href="https://calendar.app.google/kvTWvoA61DvP9XMb8" target="_blank" rel="noopener noreferrer">Open it in a new tab</a>
         or <button type="button" class="btn-secondary-pill" data-open-contact style="padding:6px 14px;font-size:13px;">message us instead</button>.
       </p>
     </div>
