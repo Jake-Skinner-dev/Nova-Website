@@ -150,6 +150,7 @@ const discoveryBackdrop = document.getElementById("discovery-backdrop");
 const discoveryFrame = document.getElementById("discovery-calendar-frame");
 
 function openDiscovery() {
+  if (contactBackdrop) closeModal(contactBackdrop);
   // Only point the iframe at Google the first time it's opened, so a visitor
   // who never clicks this never triggers a request to Google at all.
   if (discoveryFrame && !discoveryFrame.src && discoveryFrame.dataset.src) {
