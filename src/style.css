@@ -115,6 +115,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
   transition: background 400ms ease, backdrop-filter 400ms ease, border-color 400ms ease, padding 400ms ease;
+  /* Force a stable, isolated compositing layer. Without this, Chromium/Edge on
+     Windows displays with non-100% scaling can leave a stale, mis-scaled ghost
+     of this fixed+blurred header painted in the corner after scroll/resize. */
+  transform: translateZ(0);
+  isolation: isolate;
 }
 .site-header.is-scrolled {
   background: rgba(9, 11, 20, 0.72);
