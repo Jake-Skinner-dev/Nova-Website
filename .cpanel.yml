@@ -1,0 +1,16 @@
+---
+# cPanel Git Version Control deployment file.
+#
+# IMPORTANT — before first deploy:
+#   1. Replace USERNAME below with your actual 123 Reg cPanel username
+#      (shown in cPanel → Git Version Control → your repo → "Repository Path").
+#   2. This copies the pre-built dist/ folder into public_html. It never
+#      deletes existing files in public_html, so anything already there
+#      (other sites, subfolders, existing email-related files, etc.) is
+#      left alone — matching/duplicate filenames are simply overwritten.
+#   3. The dist/ folder is committed to this repo (see README) so no
+#      Node.js / npm install is required on the server.
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/USERNAME/public_html/
+    - /bin/cp -R dist/. $DEPLOYPATH
