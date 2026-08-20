@@ -195,7 +195,20 @@ function loadCalEmbed() {
     theme: "dark",
     cssVarsPerTheme: {
       light: { "cal-brand": "#FEBE98" },
-      dark: { "cal-brand": "#FEBE98" }
+      dark: {
+        "cal-brand": "#FEBE98",
+        "cal-brand-emphasis": "#FFD8BE",
+        "cal-brand-text": "#14151E",
+        "cal-bg": "#14151F",
+        "cal-bg-emphasis": "#1D1F2E",
+        "cal-bg-subtle": "#14151F",
+        "cal-border": "rgba(254,190,152,0.18)",
+        "cal-border-emphasis": "rgba(254,190,152,0.35)",
+        "cal-border-subtle": "rgba(255,255,255,0.08)",
+        "cal-text": "#EEF0F6",
+        "cal-text-emphasis": "#FFFFFF",
+        "cal-text-subtle": "rgba(238,240,246,0.66)"
+      }
     },
     hideEventTypeDetails: false,
     layout: "month_view"
