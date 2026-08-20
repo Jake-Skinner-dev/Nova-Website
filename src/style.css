@@ -514,6 +514,13 @@ section { padding: 30px 0 120px; }
 .footer-bottom .legal-links a { color: rgba(238, 240, 246, 0.45); }
 .footer-bottom .legal-links a:hover { color: #fff; }
 
+.admin-dot {
+  display: block; width: 9px; height: 9px; border-radius: 50%;
+  background: rgba(238, 240, 246, 0.14);
+  transition: background 260ms ease, transform 260ms ease;
+}
+.admin-dot:hover, .admin-dot:focus-visible { background: var(--peach); transform: scale(1.5); }
+
 /* ---------------------------------------------------------------------
    Forms
    --------------------------------------------------------------------- */

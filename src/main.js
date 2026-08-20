@@ -2,6 +2,8 @@
 // No framework: the design is presentational, so vanilla JS keeps the
 // production bundle tiny and avoids a persistent Node server on cPanel.
 
+import { supabase } from "./supabaseClient.js";
+
 const header = document.getElementById("site-header");
 const navToggle = document.getElementById("nav-toggle");
 const mobileNav = document.getElementById("mobile-nav");
@@ -186,30 +188,136 @@ if (contactForm) {
 }
 
 /* ---------------------------------------------------------------------
-   Article modal
+   Dynamic content — Our Work + Insights, loaded from Supabase so the
+   admin panel's edits show up here without a code deploy. Rendered with
+   textContent (never innerHTML) since this content comes from a content
+   editor, not a developer — treat it as untrusted input.
    --------------------------------------------------------------------- */
-const articlesData = JSON.parse(document.getElementById("articles-data").textContent);
+const workGrid = document.getElementById("work-grid");
+const insightsGrid = document.getElementById("insights-grid");
+let articlesData = [];
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function renderWorkCard(campaign) {
+  const article = el("article", "work-card");
+
+  const thumb = el("div", "thumb");
+  if (campaign.image_url) {
+    const img = el("img");
+    img.src = campaign.image_url;
+    img.alt = campaign.name ? `${campaign.name} campaign` : "Campaign image";
+    img.loading = "lazy";
+    img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
+    thumb.style.padding = "0";
+    thumb.appendChild(img);
+    const overlay = el("div");
+    overlay.style.cssText =
+      "position:absolute;inset:0;background:linear-gradient(180deg, rgba(7,8,14,0) 45%, rgba(7,8,14,0.72));";
+    thumb.style.position = "relative";
+    thumb.appendChild(overlay);
+  } else {
+    thumb.appendChild(el("span", null, campaign.image_label || "CAMPAIGN IMAGE"));
+  }
+  article.appendChild(thumb);
+
+  const body = el("div", "body");
+  const titleRow = el("div", "title-row");
+  titleRow.appendChild(el("h3", null, campaign.name));
+  titleRow.appendChild(el("span", "industry", campaign.industry));
+  body.appendChild(titleRow);
+
+  body.appendChild(el("p", "label", "CHALLENGE"));
+  body.appendChild(el("p", "challenge", campaign.challenge));
+  body.appendChild(el("p", "label", "SERVICES"));
+  body.appendChild(el("p", "services", campaign.services));
+
+  const metrics = el("div", "work-metrics");
+  [
+    [campaign.m1_label, campaign.m1_value],
+    [campaign.m2_label, campaign.m2_value]
+  ].forEach(([label, value]) => {
+    const metric = el("div", "metric");
+    metric.appendChild(el("div", "m-label", label));
+    metric.appendChild(el("div", "m-value", value));
+    metrics.appendChild(metric);
+  });
+  body.appendChild(metrics);
+  article.appendChild(body);
+  return article;
+}
+
+function renderInsightCard(article) {
+  const card = el("article", "insight-card");
+  const meta = el("div", "meta-row");
+  meta.appendChild(el("span", "category", article.category));
+  meta.appendChild(el("span", "date", article.date_label));
+  card.appendChild(meta);
+  card.appendChild(el("h3", null, article.title));
+  card.appendChild(el("p", null, article.description));
+  const btn = el("button", "read-more", "Read Article →");
+  btn.type = "button";
+  btn.setAttribute("data-open-article", article.id);
+  btn.addEventListener("click", () => openArticle(article.id));
+  card.appendChild(btn);
+  return card;
+}
+
+async function loadContent() {
+  const [campaignsRes, articlesRes] = await Promise.all([
+    supabase.from("campaigns").select("*").order("sort_order", { ascending: true }),
+    supabase.from("articles").select("*").order("sort_order", { ascending: true })
+  ]);
+
+  if (workGrid) {
+    workGrid.innerHTML = "";
+    if (campaignsRes.error || !campaignsRes.data?.length) {
+      workGrid.replaceChildren();
+    } else {
+      campaignsRes.data.forEach((c) => workGrid.appendChild(renderWorkCard(c)));
+    }
+  }
+
+  if (insightsGrid) {
+    insightsGrid.innerHTML = "";
+    if (!articlesRes.error && articlesRes.data) {
+      articlesData = articlesRes.data;
+      articlesData.forEach((a) => insightsGrid.appendChild(renderInsightCard(a)));
+    }
+  }
+
+  // Newly-inserted cards start below the fold visually but have no
+  // [data-reveal] wrapper of their own here — re-run the reveal check so
+  // anything already in view is shown rather than waiting on a scroll event.
+  checkReveal();
+}
+loadContent();
 
 function openArticle(id) {
   const article = articlesData.find((a) => a.id === id);
   if (!article) return;
   document.getElementById("article-category").textContent = article.category;
-  document.getElementById("article-date").textContent = article.date;
+  document.getElementById("article-date").textContent = article.date_label;
   document.getElementById("article-modal-title").textContent = article.title;
   document.getElementById("article-dek").textContent = article.description;
   const body = document.getElementById("article-body");
   body.innerHTML = "";
-  article.paragraphs.forEach((p) => {
-    const el = document.createElement("p");
-    el.textContent = p;
-    body.appendChild(el);
-  });
+  String(article.body || "")
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean)
+    .forEach((p) => {
+      const p_el = document.createElement("p");
+      p_el.textContent = p;
+      body.appendChild(p_el);
+    });
   openModal(articleBackdrop);
 }
-
-document.querySelectorAll("[data-open-article]").forEach((btn) => {
-  btn.addEventListener("click", () => openArticle(btn.getAttribute("data-open-article")));
-});
 
 /* ---------------------------------------------------------------------
    Misc
