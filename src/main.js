@@ -124,6 +124,7 @@ const articleBackdrop = document.getElementById("article-backdrop");
 
 function openContact(prefillNeed) {
   if (articleBackdrop) closeModal(articleBackdrop);
+  if (discoveryBackdrop) closeModal(discoveryBackdrop);
   contactFormPanel.hidden = false;
   contactSuccess.hidden = true;
   contactError.hidden = true;
@@ -139,6 +140,28 @@ document.querySelectorAll("[data-open-contact]").forEach((el) => {
   el.addEventListener("click", (e) => {
     e.preventDefault();
     openContact();
+  });
+});
+
+/* ---------------------------------------------------------------------
+   Discovery call modal (Google Calendar appointment booking)
+   --------------------------------------------------------------------- */
+const discoveryBackdrop = document.getElementById("discovery-backdrop");
+const discoveryFrame = document.getElementById("discovery-calendar-frame");
+
+function openDiscovery() {
+  // Only point the iframe at Google the first time it's opened, so a visitor
+  // who never clicks this never triggers a request to Google at all.
+  if (discoveryFrame && !discoveryFrame.src && discoveryFrame.dataset.src) {
+    discoveryFrame.src = discoveryFrame.dataset.src;
+  }
+  openModal(discoveryBackdrop);
+}
+
+document.querySelectorAll("[data-open-discovery]").forEach((el) => {
+  el.addEventListener("click", (e) => {
+    e.preventDefault();
+    openDiscovery();
   });
 });
 
