@@ -111,18 +111,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   padding: 14px 0;
   border-bottom: 1px solid var(--border-soft);
-  background: rgba(9, 11, 20, 0.4);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  /* Solid colour at the top of the page — no backdrop-filter here at all.
+     The glass/blur effect only switches on once scrolled (.is-scrolled
+     below). Chromium on some Windows display-scaling setups leaves a
+     stuck ghost render of a fixed + backdrop-filter element right at this
+     unscrolled position; removing the blur entirely at rest sidesteps it
+     rather than trying to out-tune the animation. */
+  background: #090B14;
   transition: background 400ms ease, border-color 400ms ease;
-  /* Force a stable, isolated compositing layer. Without this, Chromium/Edge on
-     Windows displays with non-100% scaling can leave a stale, mis-scaled ghost
-     of this fixed+blurred header painted in the corner after scroll/resize. */
   transform: translateZ(0);
   isolation: isolate;
-  /* backdrop-filter and padding deliberately snap instantly rather than
-     transition: animating blur on a fixed-position element is a known
-     Chromium trigger for stuck ghost-frame rendering during scroll. */
 }
 .site-header.is-scrolled {
   background: rgba(9, 11, 20, 0.72);
