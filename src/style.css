@@ -561,7 +561,7 @@ section { padding: 30px 0 120px; }
 }
 .modal--contact { max-width: 620px; }
 .modal--article { max-width: 720px; }
-.modal--discovery { max-width: 760px; }
+.modal--discovery { max-width: 920px; }
 .modal--discovery .modal-body { padding: 42px 32px 40px; }
 .modal::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 130px; border-radius: 26px 26px 0 0;
