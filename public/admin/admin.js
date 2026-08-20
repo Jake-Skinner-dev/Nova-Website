@@ -247,6 +247,7 @@ function renderCampaignCard(campaign) {
 
   card.appendChild(el("div", { class: "item-head" }, [el("span", { class: "tag", text: "CAMPAIGN" })]));
   card.appendChild(thumbRow);
+  card.appendChild(el("p", { class: "img-hint", text: "Best size: 1200 × 480px · JPG or PNG · under 1MB. Landscape crops best." }));
   card.appendChild(grid);
   card.appendChild(actions);
   card.appendChild(status);
