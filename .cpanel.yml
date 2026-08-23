@@ -8,17 +8,15 @@
 # Control repo clone tracks one branch and runs whatever .cpanel.yml is
 # checked out on it.
 #
-# IMPORTANT — before first deploy:
-#   1. DEPLOYPATH below is a BEST GUESS (/home/USERNAME/public_html/dev/,
-#      the usual cPanel default for a subdomain named "dev"). Once the
-#      dev.novasocial.co.uk subdomain is created in cPanel, confirm the
-#      exact document root it was given and update DEPLOYPATH if different.
-#   2. This copies dist/ into that folder, same as the live deploy.
-#   3. It also overwrites robots.txt with a blanket "Disallow: /" so the
+# Deploys to dev.novasocial.co.uk's confirmed document root:
+#   /home/o5l9nmc9gw7j/public_html/dev.novasocial.co.uk
+#
+#   1. This copies dist/ into that folder, same as the live deploy.
+#   2. It also overwrites robots.txt with a blanket "Disallow: /" so the
 #      dev subdomain never gets indexed or crawled — it's a staging copy,
 #      not a page you want ranking in search results.
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/o5l9nmc9gw7j/public_html/dev/
+    - export DEPLOYPATH=/home/o5l9nmc9gw7j/public_html/dev.novasocial.co.uk/
     - /bin/cp -R dist/. $DEPLOYPATH
     - printf 'User-agent: *\nDisallow: /\n' > $DEPLOYPATH/robots.txt
