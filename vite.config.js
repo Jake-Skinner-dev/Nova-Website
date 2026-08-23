@@ -2,6 +2,10 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 
+// Multi-page build: nine static HTML entries (see rollupOptions.input below),
+// each pulling shared header/footer/modal markup from src/partials/ via the
+// htmlPartials plugin. Deployed here on the `dev` branch to Vercel.
+
 const partialsDir = fileURLToPath(new URL("./src/partials/", import.meta.url));
 
 // Expands `<!--@include name-->` comments with the contents of
