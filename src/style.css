@@ -151,6 +151,39 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .nav-links a { color: inherit; }
 .nav-links a:hover, .nav-links a.is-active { color: #fff; }
 
+/* Services dropdown (desktop) */
+.nav-dropdown { position: relative; }
+.nav-dropdown-trigger { display: inline-flex; align-items: center; gap: 6px; }
+.nav-caret { width: 10px; height: 10px; transition: transform 260ms cubic-bezier(.2, .7, .2, 1); }
+.nav-dropdown:hover .nav-caret, .nav-dropdown:focus-within .nav-caret { transform: rotate(180deg); }
+
+.nav-dropdown-panel {
+  position: absolute; top: 100%; left: 50%;
+  padding-top: 14px; /* invisible bridge — keeps :hover alive while the pointer crosses the gap */
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translate(-50%, -6px);
+  transition: opacity 260ms cubic-bezier(.2, .7, .2, 1), transform 260ms cubic-bezier(.2, .7, .2, 1), visibility 0s linear 260ms;
+  z-index: 60;
+}
+.nav-dropdown:hover .nav-dropdown-panel, .nav-dropdown:focus-within .nav-dropdown-panel {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translate(-50%, 0);
+  transition: opacity 260ms cubic-bezier(.2, .7, .2, 1), transform 260ms cubic-bezier(.2, .7, .2, 1), visibility 0s linear 0s;
+}
+.nav-dropdown-panel-inner {
+  min-width: 246px; padding: 10px; border-radius: 16px; border: 1px solid var(--border);
+  background: rgba(17, 19, 32, 0.94); backdrop-filter: blur(24px) saturate(150%); -webkit-backdrop-filter: blur(24px) saturate(150%);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.5);
+  display: grid; gap: 3px;
+}
+.nav-dropdown-panel-inner a {
+  display: block; padding: 12px 14px; border-radius: 11px; font-size: 14px; font-weight: 500;
+  color: rgba(238, 240, 246, 0.8); transition: background 200ms ease, color 200ms ease;
+}
+.nav-dropdown-panel-inner a:hover, .nav-dropdown-panel-inner a:focus-visible {
+  background: rgba(254, 190, 152, 0.1); color: #fff;
+}
+
 .btn-cta {
   padding: 11px 20px; border-radius: var(--radius-pill);
   background: var(--peach); color: var(--peach-ink);
@@ -167,6 +200,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   color: var(--text); cursor: pointer;
 }
 .nav-toggle svg { width: 20px; height: 20px; }
+
+/* Hidden by default; the ≤1000px media query below turns it into the fixed
+   full-screen panel and controls when it's shown via .is-open. Without this,
+   the div has no display rule above that breakpoint and renders inline in
+   the document flow — its links show as stray text under the header. */
+.mobile-nav { display: none; }
 
 /* ---------------------------------------------------------------------
    Buttons (shared)
@@ -273,6 +312,13 @@ main { position: relative; z-index: 1; }
    Section shared bits
    --------------------------------------------------------------------- */
 section { padding: 30px 0 120px; }
+
+/* Subpage intro block — used in place of .hero on every page except Home,
+   so the first section clears the fixed header. Mirrors .hero's own
+   responsive top-padding breakpoints below. */
+.page-hero { padding: 170px 0 20px; }
+@media (max-width: 1080px) { .page-hero { padding-top: 150px; } }
+@media (max-width: 720px) { .page-hero { padding-top: 130px; } }
 .section-title {
   font-weight: 800; font-size: clamp(34px, 3.6vw, 52px); letter-spacing: -0.03em; margin: 0 0 14px;
 }
@@ -307,7 +353,7 @@ section { padding: 30px 0 120px; }
   display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start;
   padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--border);
   background: var(--surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  margin-bottom: 24px;
+  margin-bottom: 24px; scroll-margin-top: 100px;
 }
 .service-card.is-tinted { background: rgba(79, 82, 119, 0.16); }
 .service-card .eyebrow {
@@ -643,11 +689,33 @@ section { padding: 30px 0 120px; }
   }
   .mobile-nav.is-open { display: flex; }
   .mobile-nav a {
-    color: var(--text); font-family: var(--font-heading); font-weight: 600; font-size: 22px;
-    padding: 16px 0; border-bottom: 1px solid var(--border-soft);
+    color: var(--text); font-family: var(--font-heading); font-weight: 600; font-size: 22px; padding: 16px 0;
   }
+  .mobile-nav > a { border-bottom: 1px solid var(--border-soft); }
   .mobile-nav a:hover, .mobile-nav a:focus-visible { color: var(--peach); }
   .mobile-nav .btn-cta { display: inline-flex; margin-top: 28px; align-self: flex-start; }
+
+  /* Services submenu (mobile) */
+  .mobile-nav-item { border-bottom: 1px solid var(--border-soft); }
+  .mobile-nav-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .mobile-nav-row > a { flex: 1; }
+  .mobile-nav-caret {
+    background: none; border: none; color: var(--text); width: 40px; height: 40px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .mobile-nav-caret svg { width: 13px; height: 13px; transition: transform 280ms cubic-bezier(.2, .7, .2, 1); }
+  .mobile-nav-caret[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .mobile-nav-submenu {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows 320ms cubic-bezier(.2, .7, .2, 1);
+  }
+  .mobile-nav-submenu.is-open { grid-template-rows: 1fr; }
+  .mobile-nav-submenu-inner { overflow: hidden; display: flex; flex-direction: column; }
+  .mobile-nav-submenu-inner a {
+    padding: 12px 0 12px 4px; font-size: 17px; font-weight: 500; color: rgba(238, 240, 246, 0.62);
+  }
+  .mobile-nav-submenu-inner a:last-child { padding-bottom: 20px; }
+  .mobile-nav-submenu-inner a:hover, .mobile-nav-submenu-inner a:focus-visible { color: var(--peach); }
 
   .footer-grid { grid-template-columns: 1fr; gap: 32px; }
 }

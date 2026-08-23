@@ -6,8 +6,19 @@ static, framework-light site so it can run on standard shared/cPanel hosting.
 
 ## 1. Project overview
 
-- One scrolling page (`index.html`) with anchor sections for Home, Services,
-  Our Work, Insights, About and Contact — matching the nav in the approved design.
+- A **multi-page site** — nine real pages, each its own URL, for SEO (unique
+  title/description/canonical per page instead of one page with anchors):
+  `index.html` (Home), `services.html` (overview), `marketing.html`,
+  `branding.html`, `social-media.html` (the three individual services),
+  `work.html`, `insights.html`, `about.html`, `contact.html`.
+- Services has its own hover dropdown in the header nav (desktop) and a
+  tap-to-expand submenu (mobile), linking straight to the three service pages
+  — see `src/partials/header.html`.
+- Shared chrome (header/nav, footer, contact/discovery/article modals) lives
+  once in `src/partials/*.html` and is stitched into every page at build time
+  by a small Vite plugin (see `vite.config.js`) — edit a partial once and it
+  updates on every page. Each page's `<head>` (title, meta description,
+  canonical, Open Graph) is unique and lives in that page's own file.
 - Glassmorphism cards, floating hero panels, scroll-reveal animation, a mobile
   menu, a contact form modal and an article-reader modal for Insights posts.
 - Brand colours: peach `#FEBE98`, dark blue/purple `#4F5277`, near-black `#07080E`.
@@ -16,11 +27,12 @@ static, framework-light site so it can run on standard shared/cPanel hosting.
 ## 2. Framework
 
 Plain **Vite + vanilla HTML/CSS/JS** — no React/Next.js runtime, no persistent
-Node server required. Vite is a build tool only: it bundles and minifies
-`index.html`, `src/style.css` and `src/main.js` into a static `dist/` folder.
-That output is plain files (HTML/CSS/JS/images) that any web server, including
-123 Reg's cPanel shared hosting, can serve directly — no Node.js process needs
-to run on the server.
+Node server required. Vite is a build tool only: it bundles and minifies the
+nine page HTML files, `src/style.css` and `src/main.js` into a static `dist/`
+folder (see `rollupOptions.input` in `vite.config.js` for the multi-page
+entry list). That output is plain files (HTML/CSS/JS/images) that any web
+server, including 123 Reg's cPanel shared hosting, can serve directly — no
+Node.js process needs to run on the server.
 
 The one dynamic piece — the contact form — posts to `contact.php`, a small
 dependency-free PHP script using `mail()`. Standard cPanel/LAMP hosting runs
@@ -152,14 +164,23 @@ cPanel-side environment variable or a `.env` file that stays out of git
 
 ## 10. Content you'll likely want to edit
 
-- **Campaign cards ("Our Work")** — `index.html`, inside `<section id="work">`.
-- **Insights articles** — the `<script type="application/json" id="articles-data">`
-  block near the end of `index.html` (also update the matching card markup in
-  `<section id="insights">`).
-- **Contact recipient email** — `public/contact.php`.
-- **Analytics** — commented placeholder block in `<head>` of `index.html` for
-  GA4 / Meta Pixel / LinkedIn Insight Tag. No IDs are set — add them when
-  confirmed.
-- **Domain-specific SEO fields** — `<link rel="canonical">`, Open Graph URLs,
-  `public/robots.txt` and `public/sitemap.xml` currently use a
-  `YOUR-NOVA-DOMAIN.example` placeholder; replace with the real domain.
+- **Header/footer nav, "Work With Nova" CTA** — `src/partials/header.html`
+  and `src/partials/footer.html` (shared across all six pages).
+- **Contact / discovery / article modals** — `src/partials/modal-*.html`
+  (shared across all pages that include them).
+- **Campaign cards ("Our Work")** — pulled from Supabase's `campaigns` table
+  and rendered into `work.html`'s `<div id="work-grid">` by `src/main.js`.
+- **Insights articles** — pulled from Supabase's `articles` table and
+  rendered into `insights.html`'s `<div id="insights-grid">` by `src/main.js`.
+- **Per-page copy** — each page's own file: `index.html`, `services.html`,
+  `marketing.html`, `branding.html`, `social-media.html`, `work.html`,
+  `insights.html`, `about.html`, `contact.html`.
+- **Contact recipient email** — `public/contact.php`, and the mailto link on
+  `contact.html`.
+- **Analytics** — commented placeholder block in `src/partials/head-common.html`
+  for GA4 / Meta Pixel / LinkedIn Insight Tag (shared by every page's
+  `<head>`). No IDs are set — add them once here when confirmed.
+- **Per-page SEO fields** — `<title>`, meta description, `<link rel="canonical">`
+  and Open Graph tags live at the top of each page's own file (not shared),
+  so they can target that page's own keywords. `public/robots.txt` and
+  `public/sitemap.xml` list all six page URLs.

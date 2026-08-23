@@ -25,70 +25,10 @@
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#07080E" />
 
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
-<!--
-  ANALYTICS
-  Add tracking snippets here once IDs are confirmed. Do not invent IDs.
-  - Google Analytics (GA4):        replace G-XXXXXXXXXX below
-  - Meta Pixel:                    paste snippet, replace PIXEL_ID
-  - LinkedIn Insight Tag:          paste snippet, replace PARTNER_ID
-  Leave commented out until real IDs are supplied.
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
--->
-
-<link rel="stylesheet" href="/src/style.css" />
+<!--@include head-common-->
 </head>
-<body>
-<a class="skip-link" href="#main-content">Skip to content</a>
-
-<div class="bg-glow" aria-hidden="true">
-  <span class="glow-a"></span>
-  <span class="glow-b"></span>
-</div>
-
-<header class="site-header" id="site-header">
-  <nav class="nav" aria-label="Primary">
-    <a href="#top" class="nav-brand" aria-label="Nova Social home">
-      <img src="/assets/nova-logo-peach.png" width="177" height="76" alt="Nova Social" />
-    </a>
-    <div class="nav-links" id="nav-links">
-      <a href="#top">Home</a>
-      <a href="#services">Services</a>
-      <a href="#work">Our Work</a>
-      <a href="#insights">Insights</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <a href="#contact" class="btn-cta" data-open-contact>Work With Nova</a>
-    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
-  </nav>
-</header>
-
-<div class="mobile-nav" id="mobile-nav">
-  <a href="#top">Home</a>
-  <a href="#services">Services</a>
-  <a href="#work">Our Work</a>
-  <a href="#insights">Insights</a>
-  <a href="#about">About</a>
-  <a href="#contact">Contact</a>
-  <a href="#contact" class="btn-cta" data-open-contact>Work With Nova</a>
-</div>
+<body data-page="home">
+<!--@include header-->
 
 <main id="main-content">
   <div class="container">
@@ -103,7 +43,7 @@
         <p class="hero-copy" data-reveal>We help businesses and creators build stronger online identities through creative storytelling, strategic marketing and consistent social media.</p>
         <div class="hero-cta-row" data-reveal>
           <a href="#contact" class="btn-primary" data-open-contact>Work With Nova</a>
-          <a href="#services" class="btn-ghost">Explore Our Services</a>
+          <a href="/services.html" class="btn-ghost">Explore Our Services</a>
         </div>
       </div>
 
@@ -160,164 +100,46 @@
       </div>
     </section>
 
-    <section id="services" aria-labelledby="services-heading">
-      <div class="eyebrow-rule" data-reveal>
-        <span class="eyebrow" id="services-heading">SERVICES</span>
+    <section data-reveal aria-labelledby="explore-heading">
+      <div class="eyebrow-rule">
+        <span class="eyebrow" id="explore-heading-label">EXPLORE</span>
         <span class="rule"></span>
       </div>
+      <h2 class="section-title" id="explore-heading">Take A Look Around.</h2>
+      <p class="section-lede">Everything about how we work, what we&#8217;ve done and how to get started.</p>
 
-      <div class="service-card" data-reveal>
-        <div>
-          <div class="eyebrow">MARKETING SOLUTIONS</div>
-          <h3>Marketing With Purpose</h3>
-          <p>We create marketing strategies designed to increase visibility, engagement and brand awareness.</p>
-          <p>From planning to execution, we help businesses reach the right audience with the right message.</p>
-          <a href="#contact" class="service-link" data-open-contact>Explore Marketing <span class="arrow">&#8594;</span></a>
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon pillar-icon--peach"></div>
+          <h3>Services</h3>
+          <p>Marketing, branding and social media, built around your business.</p>
+          <p style="margin-top:18px;"><a href="/services.html" class="service-link">View Services <span class="arrow">&#8594;</span></a></p>
         </div>
-        <div class="service-tags">
-          <span>Marketing Strategy</span>
-          <span>Digital Campaigns</span>
-          <span>Campaign Planning</span>
-          <span>Audience Growth</span>
-          <span>Email Marketing</span>
-          <span>Marketing Support</span>
+        <div class="pillar-card">
+          <div class="pillar-icon pillar-icon--purple"></div>
+          <h3>Our Work</h3>
+          <p>Real campaigns and the results they&#8217;ve delivered for our clients.</p>
+          <p style="margin-top:18px;"><a href="/work.html" class="service-link">See Our Work <span class="arrow">&#8594;</span></a></p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pillar-icon--peach"></div>
+          <h3>Insights</h3>
+          <p>Short, practical reads for anyone growing a brand online.</p>
+          <p style="margin-top:18px;"><a href="/insights.html" class="service-link">Read Insights <span class="arrow">&#8594;</span></a></p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pillar-icon--purple"></div>
+          <h3>About</h3>
+          <p>Creative thinking, clear strategy and how we work with every client.</p>
+          <p style="margin-top:18px;"><a href="/about.html" class="service-link">About Nova <span class="arrow">&#8594;</span></a></p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon pillar-icon--peach"></div>
+          <h3>Contact</h3>
+          <p>Book a free discovery call, or send us a message to get started.</p>
+          <p style="margin-top:18px;"><a href="/contact.html" class="service-link">Get In Touch <span class="arrow">&#8594;</span></a></p>
         </div>
       </div>
-
-      <div class="service-card is-tinted" data-reveal>
-        <div>
-          <div class="eyebrow">BRANDING &amp; CONTENT STRATEGY</div>
-          <h3>Build A Brand People Remember</h3>
-          <p>Strong brands are built through consistency.</p>
-          <p>We help businesses develop clear visual identities, messaging and content strategies that feel authentic and recognisable.</p>
-          <a href="#contact" class="service-link" data-open-contact>Explore Branding <span class="arrow">&#8594;</span></a>
-        </div>
-        <div class="service-tags">
-          <span>Brand Strategy</span>
-          <span>Tone of Voice</span>
-          <span>Creative Direction</span>
-          <span>Social Media Templates</span>
-          <span>Content Planning</span>
-          <span>Visual Storytelling</span>
-        </div>
-      </div>
-
-      <div class="service-card" data-reveal>
-        <div>
-          <div class="eyebrow">SOCIAL MEDIA MANAGEMENT</div>
-          <h3>Social Media Without The Stress</h3>
-          <p>We manage your social media so you can focus on running your business.</p>
-          <p>From planning and creating content to scheduling and reporting, we help brands stay visible, consistent and connected with their audience.</p>
-          <a href="#contact" class="service-link" data-open-contact>Explore Social Media <span class="arrow">&#8594;</span></a>
-        </div>
-        <div class="service-tags">
-          <span>Content Creation</span>
-          <span>Content Planning</span>
-          <span>Caption Writing</span>
-          <span>Scheduling</span>
-          <span>Engagement Strategy</span>
-          <span>Monthly Reporting</span>
-        </div>
-      </div>
-    </section>
-
-    <section data-reveal aria-labelledby="process-heading">
-      <div class="process">
-        <div>
-          <h2 id="process-heading">We Work With You,<br />Not Just For You.</h2>
-          <p class="lede">The strongest marketing comes from understanding the people behind the brand.</p>
-          <p class="lede">We work closely with every client to understand their goals, audience and vision before creating a strategy around them.</p>
-        </div>
-        <div class="process-steps">
-          <div class="process-step">
-            <span class="num">01</span>
-            <div>
-              <h4>Understand</h4>
-              <p>We learn about your business, audience and goals.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <span class="num">02</span>
-            <div>
-              <h4>Plan</h4>
-              <p>We create a clear strategy around what you want to achieve.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <span class="num">03</span>
-            <div>
-              <h4>Create</h4>
-              <p>We develop content and campaigns that reflect your brand.</p>
-            </div>
-          </div>
-          <div class="process-step">
-            <span class="num">04</span>
-            <div>
-              <h4>Improve</h4>
-              <p>We review performance, learn what works and continue improving.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section data-reveal aria-labelledby="story-heading">
-      <div class="story">
-        <div>
-          <h2 id="story-heading">Every Brand Has A Story.</h2>
-          <p>We help businesses communicate theirs.</p>
-          <p>Through visuals, content and strategy, we create marketing that communicates emotion, personality and purpose.</p>
-        </div>
-        <div class="story-grid" aria-hidden="true">
-          <div class="story-tile story-tile--tall"><span>BRAND CAMPAIGN SHOT</span></div>
-          <div class="story-tile story-tile--peach"><span>SOCIAL GRID</span></div>
-          <div class="story-tile story-tile--purple"><span>CLIENT PORTRAIT</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section data-reveal aria-labelledby="ai-heading">
-      <div class="ai-panel">
-        <div class="ai-grid">
-          <div>
-            <div class="eyebrow">AI &amp; MODERN MARKETING</div>
-            <h2 id="ai-heading">Smarter Tools.<br />Human Creativity.</h2>
-            <p>We use AI to support research, planning, idea generation and workflow efficiency.</p>
-            <p>It helps us work smarter and spend more time on strategy, creativity and our clients.</p>
-            <p>AI supports our process. It does not replace it.</p>
-          </div>
-          <div>
-            <div class="ai-tags">
-              <span>Research</span>
-              <span>Planning</span>
-              <span>Content Ideas</span>
-              <span>Workflow</span>
-              <span>Reporting</span>
-            </div>
-            <div class="ai-callout">
-              <p>We do not use AI-generated images in client marketing work. Visual content stays authentic, tailored and aligned with the client&#8217;s brand.</p>
-              <p>Technology supports the work. People shape the ideas.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="work" data-reveal aria-labelledby="work-heading">
-      <div class="work-head">
-        <div>
-          <div class="eyebrow" style="font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;color:var(--peach);margin-bottom:16px;">CLIENT WORK</div>
-          <h2 id="work-heading">Marketing Built To Perform.</h2>
-        </div>
-        <p class="aside">A look at what changed for three brands we work with, and what made the difference.</p>
-      </div>
-      <div class="work-grid" id="work-grid"></div>
-    </section>
-
-    <section id="insights" data-reveal aria-labelledby="insights-heading">
-      <h2 class="section-title" id="insights-heading">Marketing Made Easier To Understand.</h2>
-      <p class="section-lede">Short, practical reads for anyone growing a brand online.</p>
-      <div class="insights-grid" id="insights-grid"></div>
     </section>
 
     <section data-reveal aria-labelledby="checkup-heading">
@@ -343,199 +165,13 @@
       </div>
     </section>
 
-    <section id="about" data-reveal aria-labelledby="about-heading">
-      <div class="about">
-        <div>
-          <div class="eyebrow">ABOUT NOVA</div>
-          <h2 id="about-heading">Creative Thinking.<br />Clear Strategy.</h2>
-        </div>
-        <div>
-          <p>Nova Social was built around a simple idea: marketing should help businesses communicate better, not make things more complicated.</p>
-          <p>We combine creativity, strategy and modern tools to help businesses and creators build stronger brands and grow their online presence.</p>
-          <p>Our approach is built around creativity, integrity, collaboration, innovation and consistent quality.</p>
-          <div class="about-tags">
-            <span>Creativity</span>
-            <span>Integrity</span>
-            <span>Collaboration</span>
-            <span>Innovation</span>
-            <span>Quality</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section data-reveal>
-      <div class="partnership">
-        <h2>More Than A Marketing Supplier.</h2>
-        <div>
-          <p>We want to build long-term relationships with the brands we work with.</p>
-          <p>That means understanding your goals, learning your business and continuing to improve alongside you.</p>
-          <p class="highlight">Marketing works better when it feels like a partnership.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" data-reveal aria-labelledby="contact-heading">
-      <div class="contact-cta">
-        <h2 id="contact-heading">Ready To Build Something Better?</h2>
-        <p>Whether you need help managing your social media, strengthening your brand or building a clearer marketing strategy, we&#8217;d love to hear what you&#8217;re working on.</p>
-        <div class="row">
-          <button type="button" class="btn-primary is-large" data-open-discovery>Start A Conversation</button>
-          <a href="#services" class="btn-ghost is-large">Explore Our Services</a>
-        </div>
-      </div>
-    </section>
+    <!--@include cta-contact-->
   </div>
 </main>
 
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand-mark">
-          <img src="/assets/nova-logo-trimmed.png" alt="Nova Social" width="354" height="154" />
-        </div>
-        <p class="footer-tagline">Smart. Simple. Social.</p>
-      </div>
-      <div class="footer-col">
-        <span class="heading">SITE</span>
-        <a href="#services">Services</a>
-        <a href="#work">Our Work</a>
-        <a href="#insights">Insights</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <div class="footer-col">
-        <span class="heading">SOCIAL</span>
-        <a href="https://www.linkedin.com/company/novasocialmedia" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://www.instagram.com/nova_social_uk/" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://www.facebook.com/profile.php?id=61565584724550&locale=en_GB" target="_blank" rel="noopener noreferrer">Facebook</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span style="display:flex;align-items:center;gap:10px;">
-        <a href="/admin/" class="admin-dot" title="Admin" aria-label="Site admin"></a>
-        &#169; <span id="footer-year">2026</span> Nova Social. All rights reserved.
-      </span>
-      <div class="legal-links">
-        <a href="#contact" data-open-contact>Privacy Policy</a>
-        <a href="#contact" data-open-contact>Terms</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- Contact modal -->
-<div class="modal-backdrop" id="contact-backdrop" data-close-on-backdrop>
-  <div class="modal modal--contact" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
-    <button type="button" class="modal-close" data-close-modal aria-label="Close form">&#215;</button>
-
-    <div class="modal-body" id="contact-form-panel">
-      <div class="modal-eyebrow">START A CONVERSATION</div>
-      <h2 id="contact-modal-title">Tell us what you&#8217;re working on.</h2>
-      <p class="modal-lede">A few details is all we need. No pitch decks, no pressure.</p>
-
-      <form id="contact-form" novalidate>
-        <div class="modal-grid">
-          <label class="field-label">YOUR NAME
-            <input class="field-input" type="text" name="name" id="cf-name" placeholder="Alex Rowe" required autocomplete="name" />
-          </label>
-          <label class="field-label">EMAIL
-            <input class="field-input" type="email" name="email" id="cf-email" placeholder="alex@yourbrand.com" required autocomplete="email" />
-          </label>
-          <label class="field-label">BUSINESS
-            <input class="field-input" type="text" name="business" id="cf-business" placeholder="Rowe &amp; Family" autocomplete="organization" />
-          </label>
-          <label class="field-label">WHAT DO YOU NEED?
-            <select class="field-select" name="need" id="cf-need">
-              <option>Not sure yet</option>
-              <option>Social media management</option>
-              <option>Branding &amp; content strategy</option>
-              <option>Marketing solutions</option>
-              <option>Free social media check-up</option>
-            </select>
-          </label>
-        </div>
-
-        <label class="field-label modal-message-field">A LITTLE ABOUT IT
-          <textarea class="field-textarea" name="message" id="cf-message" rows="4" placeholder="Where you are now, and what you&#8217;d like to change."></textarea>
-        </label>
-
-        <!-- honeypot spam trap: real users never see or fill this -->
-        <div class="hp-field" aria-hidden="true">
-          <label for="cf-website">Leave this field blank</label>
-          <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off" />
-        </div>
-
-        <div class="modal-actions">
-          <p class="field-hint">We reply within one working day.</p>
-          <button type="submit" class="btn-primary" id="cf-submit">Send Message</button>
-        </div>
-        <p class="field-error" id="cf-error" hidden>Please add your name and email so we can reply.</p>
-      </form>
-    </div>
-
-    <div class="modal-success" id="contact-success" hidden>
-      <div class="check">&#10003;</div>
-      <h2>Thanks, we&#8217;ve got it.</h2>
-      <p>We&#8217;ll come back to you within one working day. If it&#8217;s easier to talk, we can set up a short call.</p>
-      <button type="button" class="btn-primary" data-close-modal>Close</button>
-    </div>
-  </div>
-</div>
-
-<!-- Article modals -->
-<div class="modal-backdrop" id="article-backdrop" data-close-on-backdrop>
-  <div class="modal modal--article" role="dialog" aria-modal="true" aria-labelledby="article-modal-title">
-    <button type="button" class="modal-close" data-close-modal aria-label="Close article">&#215;</button>
-    <div class="modal-body">
-      <div class="article-meta">
-        <span class="category" id="article-category"></span>
-        <span id="article-date"></span>
-      </div>
-      <h2 id="article-modal-title"></h2>
-      <p class="article-dek" id="article-dek"></p>
-      <div class="article-divider"></div>
-      <div class="article-body" id="article-body"></div>
-      <div class="article-footer">
-        <p>Want this looked at for your own brand?</p>
-        <div class="row">
-          <button type="button" class="btn-primary-pill" data-open-contact>Start A Conversation</button>
-          <button type="button" class="btn-secondary-pill" data-close-modal>Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Discovery call booking modal -->
-<div class="modal-backdrop" id="discovery-backdrop" data-close-on-backdrop>
-  <div class="modal modal--discovery" role="dialog" aria-modal="true" aria-labelledby="discovery-modal-title">
-    <button type="button" class="modal-close" data-close-modal aria-label="Close booking">&#215;</button>
-    <div class="modal-body">
-      <div class="modal-eyebrow">DISCOVERY CALL</div>
-      <h2 id="discovery-modal-title">Find a time that works for you.</h2>
-      <p class="modal-lede">Pick a slot below and it'll book straight into our calendar &mdash; no back-and-forth emails.</p>
-      <!--
-        Replace https://calendar.app.google/kvTWvoA61DvP9XMb8 with the real booking page link:
-        Google Calendar → Create → Appointment schedule → Share → booking page link.
-      -->
-      <iframe
-        id="discovery-calendar-frame"
-        data-src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0Wmo-0tIQ5i5N0EB6OfPFhEUjAWULpnzMzfnO1xwLNUkGNbquOZVoSyk-yxE29SWjpqMx7V1yJ"
-        style="width:100%;height:750px;border:0;border-radius:16px;background:#fff;"
-        title="Book a discovery call"
-      ></iframe>
-      <div class="modal-actions" style="margin-top:14px;">
-        <p class="field-hint" style="max-width:none;">
-          Having trouble with the calendar?
-          <a href="https://calendar.app.google/kvTWvoA61DvP9XMb8" target="_blank" rel="noopener noreferrer">Open it in a new tab</a>.
-        </p>
-        <button type="button" class="btn-secondary-pill" data-open-contact style="padding:6px 14px;font-size:13px;">Message us instead</button>
-      </div>
-    </div>
-  </div>
-</div>
+<!--@include footer-->
+<!--@include modal-contact-->
+<!--@include modal-discovery-->
 
 <script src="/src/main.js" type="module"></script>
 </body>

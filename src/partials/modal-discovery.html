@@ -1,0 +1,28 @@
+<!-- Discovery call booking modal -->
+<div class="modal-backdrop" id="discovery-backdrop" data-close-on-backdrop>
+  <div class="modal modal--discovery" role="dialog" aria-modal="true" aria-labelledby="discovery-modal-title">
+    <button type="button" class="modal-close" data-close-modal aria-label="Close booking">&#215;</button>
+    <div class="modal-body">
+      <div class="modal-eyebrow">DISCOVERY CALL</div>
+      <h2 id="discovery-modal-title">Find a time that works for you.</h2>
+      <p class="modal-lede">Pick a slot below and it'll book straight into our calendar &mdash; no back-and-forth emails.</p>
+      <!--
+        Replace https://calendar.app.google/kvTWvoA61DvP9XMb8 with the real booking page link:
+        Google Calendar → Create → Appointment schedule → Share → booking page link.
+      -->
+      <iframe
+        id="discovery-calendar-frame"
+        data-src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0Wmo-0tIQ5i5N0EB6OfPFhEUjAWULpnzMzfnO1xwLNUkGNbquOZVoSyk-yxE29SWjpqMx7V1yJ"
+        style="width:100%;height:750px;border:0;border-radius:16px;background:#fff;"
+        title="Book a discovery call"
+      ></iframe>
+      <div class="modal-actions" style="margin-top:14px;">
+        <p class="field-hint" style="max-width:none;">
+          Having trouble with the calendar?
+          <a href="https://calendar.app.google/kvTWvoA61DvP9XMb8" target="_blank" rel="noopener noreferrer">Open it in a new tab</a>.
+        </p>
+        <button type="button" class="btn-secondary-pill" data-open-contact style="padding:6px 14px;font-size:13px;">Message us instead</button>
+      </div>
+    </div>
+  </div>
+</div>
