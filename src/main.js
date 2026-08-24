@@ -22,6 +22,11 @@ function closeMobileNav() {
   mobileNav.classList.remove("is-open");
   navToggle.setAttribute("aria-expanded", "false");
   navToggle.setAttribute("aria-label", "Open menu");
+  mobileNav.querySelectorAll(".mobile-nav-submenu.is-open").forEach((submenu) => {
+    submenu.classList.remove("is-open");
+    const toggle = mobileNav.querySelector(`[aria-controls="${submenu.id}"]`);
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+  });
 }
 function openMobileNav() {
   mobileNav.classList.add("is-open");
@@ -34,6 +39,17 @@ if (navToggle) {
   });
 }
 mobileNav.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMobileNav));
+
+// Services submenu accordion (mobile) — tap the caret to expand/collapse
+// without navigating away, tap a submenu link to navigate + close the nav.
+mobileNav.querySelectorAll("[data-mobile-submenu-toggle]").forEach((toggle) => {
+  const submenu = document.getElementById(toggle.getAttribute("aria-controls"));
+  if (!submenu) return;
+  toggle.addEventListener("click", () => {
+    const isOpen = submenu.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+  });
+});
 
 /* ---------------------------------------------------------------------
    Scroll reveal
@@ -293,9 +309,17 @@ function renderInsightCard(article) {
 }
 
 async function loadContent() {
+  // Each page only has the grid(s) it needs — skip the query entirely when
+  // there's nowhere on this page to render the result.
+  if (!workGrid && !insightsGrid) return;
+
   const [campaignsRes, articlesRes] = await Promise.all([
-    supabase.from("campaigns").select("*").order("sort_order", { ascending: true }),
-    supabase.from("articles").select("*").order("sort_order", { ascending: true })
+    workGrid
+      ? supabase.from("campaigns").select("*").order("sort_order", { ascending: true })
+      : Promise.resolve(null),
+    insightsGrid
+      ? supabase.from("articles").select("*").order("sort_order", { ascending: true })
+      : Promise.resolve(null)
   ]);
 
   if (workGrid) {
@@ -349,17 +373,9 @@ function openArticle(id) {
 const footerYear = document.getElementById("footer-year");
 if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 
-// Highlight the active section link on scroll (progressive enhancement).
-const sectionIds = ["top", "services", "work", "insights", "about", "contact"];
-const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
-function updateActiveLink() {
-  let current = sectionIds[0];
-  for (const id of sectionIds) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.4) current = id;
-  }
-  navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${current}`));
-}
-window.addEventListener("scroll", updateActiveLink, { passive: true });
-updateActiveLink();
+// Highlight the current page's nav link (each page is its own URL now, so
+// this is a static match rather than a scroll-position calculation).
+const currentPage = document.body.dataset.page || "home";
+document.querySelectorAll(".nav-links a[data-page], .mobile-nav a[data-page]").forEach((a) => {
+  a.classList.toggle("is-active", a.dataset.page === currentPage);
+});

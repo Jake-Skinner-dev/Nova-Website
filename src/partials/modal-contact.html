@@ -1,0 +1,58 @@
+<!-- Contact modal -->
+<div class="modal-backdrop" id="contact-backdrop" data-close-on-backdrop>
+  <div class="modal modal--contact" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+    <button type="button" class="modal-close" data-close-modal aria-label="Close form">&#215;</button>
+
+    <div class="modal-body" id="contact-form-panel">
+      <div class="modal-eyebrow">START A CONVERSATION</div>
+      <h2 id="contact-modal-title">Tell us what you&#8217;re working on.</h2>
+      <p class="modal-lede">A few details is all we need. No pitch decks, no pressure.</p>
+
+      <form id="contact-form" novalidate>
+        <div class="modal-grid">
+          <label class="field-label">YOUR NAME
+            <input class="field-input" type="text" name="name" id="cf-name" placeholder="Alex Rowe" required autocomplete="name" />
+          </label>
+          <label class="field-label">EMAIL
+            <input class="field-input" type="email" name="email" id="cf-email" placeholder="alex@yourbrand.com" required autocomplete="email" />
+          </label>
+          <label class="field-label">BUSINESS
+            <input class="field-input" type="text" name="business" id="cf-business" placeholder="Rowe &amp; Family" autocomplete="organization" />
+          </label>
+          <label class="field-label">WHAT DO YOU NEED?
+            <select class="field-select" name="need" id="cf-need">
+              <option>Not sure yet</option>
+              <option>Social media management</option>
+              <option>Branding &amp; content strategy</option>
+              <option>Marketing solutions</option>
+              <option>Free social media check-up</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field-label modal-message-field">A LITTLE ABOUT IT
+          <textarea class="field-textarea" name="message" id="cf-message" rows="4" placeholder="Where you are now, and what you&#8217;d like to change."></textarea>
+        </label>
+
+        <!-- honeypot spam trap: real users never see or fill this -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="cf-website">Leave this field blank</label>
+          <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="modal-actions">
+          <p class="field-hint">We reply within one working day.</p>
+          <button type="submit" class="btn-primary" id="cf-submit">Send Message</button>
+        </div>
+        <p class="field-error" id="cf-error" hidden>Please add your name and email so we can reply.</p>
+      </form>
+    </div>
+
+    <div class="modal-success" id="contact-success" hidden>
+      <div class="check">&#10003;</div>
+      <h2>Thanks, we&#8217;ve got it.</h2>
+      <p>We&#8217;ll come back to you within one working day. If it&#8217;s easier to talk, we can set up a short call.</p>
+      <button type="button" class="btn-primary" data-close-modal>Close</button>
+    </div>
+  </div>
+</div>

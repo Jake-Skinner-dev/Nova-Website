@@ -1,16 +1,22 @@
 ---
-# cPanel Git Version Control deployment file.
+# cPanel Git Version Control deployment file — DEV branch.
 #
-# IMPORTANT — before first deploy:
-#   1. Replace USERNAME below with your actual 123 Reg cPanel username
-#      (shown in cPanel → Git Version Control → your repo → "Repository Path").
-#   2. This copies the pre-built dist/ folder into public_html. It never
-#      deletes existing files in public_html, so anything already there
-#      (other sites, subfolders, existing email-related files, etc.) is
-#      left alone — matching/duplicate filenames are simply overwritten.
-#   3. The dist/ folder is committed to this repo (see README) so no
-#      Node.js / npm install is required on the server.
+# This is the `dev` branch's copy of .cpanel.yml, deploying to the
+# dev.novasocial.co.uk subdomain instead of the live site's public_html.
+# The `main` branch has its own separate .cpanel.yml pointing at the live
+# document root — the two never conflict because each cPanel Git Version
+# Control repo clone tracks one branch and runs whatever .cpanel.yml is
+# checked out on it.
+#
+# Deploys to dev.novasocial.co.uk's confirmed document root:
+#   /home/o5l9nmc9gw7j/public_html/dev.novasocial.co.uk
+#
+#   1. This copies dist/ into that folder, same as the live deploy.
+#   2. It also overwrites robots.txt with a blanket "Disallow: /" so the
+#      dev subdomain never gets indexed or crawled — it's a staging copy,
+#      not a page you want ranking in search results.
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/o5l9nmc9gw7j/public_html/
+    - export DEPLOYPATH=/home/o5l9nmc9gw7j/public_html/dev.novasocial.co.uk/
     - /bin/cp -R dist/. $DEPLOYPATH
+    - printf 'User-agent: *\nDisallow: /\n' > $DEPLOYPATH/robots.txt
