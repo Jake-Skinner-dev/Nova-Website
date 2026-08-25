@@ -33,19 +33,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
-<!-- Google tag (gtag.js) — shared across every page via this partial -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HV4TL91B1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-3HV4TL91B1');
-</script>
-
 <!--
-  Other tracking snippets — add once IDs are confirmed. Do not invent IDs.
-  - Meta Pixel:          paste snippet, replace PIXEL_ID
-  - LinkedIn Insight Tag: paste snippet, replace PARTNER_ID
+  ANALYTICS — deliberately OFF on the dev branch so staging/preview traffic
+  never counts toward real GA4 numbers. The live `main` branch's copy of
+  this file has the real Google tag (GA4 id G-3HV4TL91B1) wired in; keep
+  the two branches diverged on this file rather than merging main's
+  analytics block back into dev.
 -->
 
   <script type="module" crossorigin src="./assets/main-BiIRBfU0.js"></script>
