@@ -6,22 +6,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
-<!--
-  ANALYTICS
-  Add tracking snippets here once IDs are confirmed. Do not invent IDs.
-  - Google Analytics (GA4):        replace G-XXXXXXXXXX below
-  - Meta Pixel:                    paste snippet, replace PIXEL_ID
-  - LinkedIn Insight Tag:          paste snippet, replace PARTNER_ID
-  Leave commented out until real IDs are supplied. This block is shared
-  across every page (src/partials/head-common.html) — add it once here.
+<!-- Google tag (gtag.js) — shared across every page via this partial -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HV4TL91B1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3HV4TL91B1');
+</script>
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
+<!--
+  Other tracking snippets — add once IDs are confirmed. Do not invent IDs.
+  - Meta Pixel:          paste snippet, replace PIXEL_ID
+  - LinkedIn Insight Tag: paste snippet, replace PARTNER_ID
 -->
 
 <link rel="stylesheet" href="/src/style.css" />
