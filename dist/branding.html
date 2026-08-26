@@ -33,19 +33,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
-<!-- Google tag (gtag.js) — shared across every page via this partial -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HV4TL91B1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-3HV4TL91B1');
-</script>
-
 <!--
-  Other tracking snippets — add once IDs are confirmed. Do not invent IDs.
-  - Meta Pixel:          paste snippet, replace PIXEL_ID
-  - LinkedIn Insight Tag: paste snippet, replace PARTNER_ID
+  ANALYTICS — deliberately OFF on the dev branch so staging/preview traffic
+  never counts toward real GA4 numbers. The live `main` branch's copy of
+  this file has the real Google tag (GA4 id G-3HV4TL91B1) wired in; keep
+  the two branches diverged on this file rather than merging main's
+  analytics block back into dev.
 -->
 
   <script type="module" crossorigin src="./assets/main-BiIRBfU0.js"></script>
@@ -149,32 +142,44 @@
 
       <div class="pillars-grid">
         <div class="pillar-card">
-          <div class="pillar-icon pillar-icon--peach"></div>
+          <div class="pillar-icon pillar-icon--peach">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+          </div>
           <h3>Brand Strategy</h3>
           <p>The thinking behind your brand &mdash; what you stand for and why it matters to your audience.</p>
         </div>
         <div class="pillar-card">
-          <div class="pillar-icon pillar-icon--purple"></div>
+          <div class="pillar-icon pillar-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>
+          </div>
           <h3>Tone of Voice</h3>
           <p>A consistent way of writing and speaking that sounds like you, everywhere you show up.</p>
         </div>
         <div class="pillar-card">
-          <div class="pillar-icon pillar-icon--peach"></div>
+          <div class="pillar-icon pillar-icon--peach">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
           <h3>Creative Direction</h3>
           <p>A clear visual direction so every piece of content looks like it belongs to the same brand.</p>
         </div>
         <div class="pillar-card">
-          <div class="pillar-icon pillar-icon--purple"></div>
+          <div class="pillar-icon pillar-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          </div>
           <h3>Social Media Templates</h3>
           <p>Reusable, on-brand templates that make posting quicker without losing consistency.</p>
         </div>
         <div class="pillar-card">
-          <div class="pillar-icon pillar-icon--peach"></div>
+          <div class="pillar-icon pillar-icon--peach">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          </div>
           <h3>Content Planning</h3>
           <p>A structured plan for what you post, when, and why it fits your bigger picture.</p>
         </div>
         <div class="pillar-card">
-          <div class="pillar-icon pillar-icon--purple"></div>
+          <div class="pillar-icon pillar-icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+          </div>
           <h3>Visual Storytelling</h3>
           <p>Imagery and content that communicate personality, not just information.</p>
         </div>
