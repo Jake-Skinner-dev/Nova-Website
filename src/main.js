@@ -3,6 +3,7 @@
 // production bundle tiny and avoids a persistent Node server on cPanel.
 
 import { supabase } from "./supabaseClient.js";
+import { slugify } from "./slugify.js";
 
 const header = document.getElementById("site-header");
 const navToggle = document.getElementById("nav-toggle");
@@ -235,7 +236,6 @@ if (contactForm) {
    --------------------------------------------------------------------- */
 const workGrid = document.getElementById("work-grid");
 const insightsGrid = document.getElementById("insights-grid");
-let articlesData = [];
 
 function el(tag, className, text) {
   const node = document.createElement(tag);
@@ -300,11 +300,12 @@ function renderInsightCard(article) {
   card.appendChild(meta);
   card.appendChild(el("h3", null, article.title));
   card.appendChild(el("p", null, article.description));
-  const btn = el("button", "read-more", "Read Article →");
-  btn.type = "button";
-  btn.setAttribute("data-open-article", article.id);
-  btn.addEventListener("click", () => openArticle(article.id));
-  card.appendChild(btn);
+  const link = el("a", "read-more", "Read Article →");
+  // Each article gets its own static page at build time (see
+  // scripts/generate-insight-pages.mjs) using this exact same slug. A
+  // brand-new article won't have its page live until the next deploy.
+  link.href = `/insights/${slugify(article.title)}.html`;
+  card.appendChild(link);
   return card;
 }
 
@@ -334,8 +335,7 @@ async function loadContent() {
   if (insightsGrid) {
     insightsGrid.innerHTML = "";
     if (!articlesRes.error && articlesRes.data) {
-      articlesData = articlesRes.data;
-      articlesData.forEach((a) => insightsGrid.appendChild(renderInsightCard(a)));
+      articlesRes.data.forEach((a) => insightsGrid.appendChild(renderInsightCard(a)));
     }
   }
 
@@ -345,27 +345,6 @@ async function loadContent() {
   checkReveal();
 }
 loadContent();
-
-function openArticle(id) {
-  const article = articlesData.find((a) => a.id === id);
-  if (!article) return;
-  document.getElementById("article-category").textContent = article.category;
-  document.getElementById("article-date").textContent = article.date_label;
-  document.getElementById("article-modal-title").textContent = article.title;
-  document.getElementById("article-dek").textContent = article.description;
-  const body = document.getElementById("article-body");
-  body.innerHTML = "";
-  String(article.body || "")
-    .split(/\n\s*\n/)
-    .map((p) => p.trim())
-    .filter(Boolean)
-    .forEach((p) => {
-      const p_el = document.createElement("p");
-      p_el.textContent = p;
-      body.appendChild(p_el);
-    });
-  openModal(articleBackdrop);
-}
 
 /* ---------------------------------------------------------------------
    Misc

@@ -75,6 +75,18 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
 /* ---------------------------------------------------------------------
    Shared helpers
    --------------------------------------------------------------------- */
+// Kept in sync by hand with src/slugify.js — this page is deliberately
+// unbundled (see file header), so it can't import that module directly.
+function slugify(text) {
+  return (
+    String(text || "")
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80) || "article"
+  );
+}
 function el(tag, props = {}, children = []) {
   const node = document.createElement(tag);
   Object.entries(props).forEach(([k, v]) => {
@@ -300,6 +312,13 @@ function renderArticleCard(article) {
   const bodyInput = textarea(article.body, 8);
   const sortInput = input(String(article.sort_order ?? 0), { type: "number" });
 
+  const urlHint = el("p", { class: "img-hint" });
+  function updateUrlHint() {
+    urlHint.textContent = `Publishes at: /insights/${slugify(titleInput.value)}.html`;
+  }
+  updateUrlHint();
+  titleInput.addEventListener("input", updateUrlHint);
+
   const grid = el("div", { class: "row-2" });
   grid.appendChild(field("Category", categoryInput));
   grid.appendChild(field("Date", dateInput));
@@ -358,6 +377,7 @@ function renderArticleCard(article) {
   });
 
   card.appendChild(el("div", { class: "item-head" }, [el("span", { class: "tag", text: "ARTICLE" })]));
+  card.appendChild(urlHint);
   card.appendChild(grid);
   card.appendChild(actions);
   card.appendChild(status);
