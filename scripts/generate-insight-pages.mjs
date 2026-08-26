@@ -74,6 +74,16 @@ async function main() {
   const modalDiscovery = readFileSync(join(root, "src/partials/modal-discovery.html"), "utf-8");
   const ctaContact = readFileSync(join(root, "src/partials/cta-contact.html"), "utf-8");
 
+  // Reuse head-common.html verbatim (favicons, fonts, and — critically —
+  // whatever analytics block this branch currently has, e.g. main's real
+  // GA4 tag vs dev's deliberate lack of one) so these generated pages never
+  // silently drift out of sync with every other page's <head>. Its own
+  // stylesheet line points at the dev-only "/src/style.css" source path,
+  // which doesn't exist in a production build — swap in the real hashed
+  // cssTag computed above instead.
+  const headCommonRaw = readFileSync(join(root, "src/partials/head-common.html"), "utf-8");
+  const headCommon = headCommonRaw.replace('<link rel="stylesheet" href="/src/style.css" />', cssTag);
+
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const { data: articles, error } = await supabase
     .from("articles")
@@ -133,13 +143,7 @@ async function main() {
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#07080E" />
 
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-${cssTag}
+${headCommon}
 </head>
 <body data-page="insights">
 ${header}
