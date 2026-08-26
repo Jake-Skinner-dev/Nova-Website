@@ -1,0 +1,54 @@
+name: Rebuild Insights pages
+
+# Keeps dist/insights/*.html (one static page per article, generated from
+# Supabase — see scripts/generate-insight-pages.mjs) in sync automatically,
+# so publishing/editing an article in the admin panel doesn't require
+# someone to manually run `npm run build` and push.
+#
+# Runs on a schedule rather than the instant a row changes in Supabase —
+# that would need a Supabase Database Webhook calling GitHub's API, which
+# needs a one-time setup in the Supabase dashboard. This scheduled version
+# needs no external configuration at all: every 30 minutes it rebuilds the
+# site and, if the fresh Supabase content produced any actual file changes,
+# commits and pushes them. Vercel is watching this branch, so that push
+# alone is enough for the Vercel deployment to update itself.
+#
+# This does NOT reach the live cPanel site — cPanel's Git Version Control
+# still needs "Update from Remote" + "Deploy HEAD Commit" clicked by hand
+# (or a webhook, if the hosting plan supports one) to actually copy new
+# files into public_html.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Commit and push if content changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/
+          if git diff --cached --quiet; then
+            echo "No Supabase content changes — nothing to publish."
+          else
+            git commit -m "Auto-publish: rebuild Insights pages from Supabase"
+            git push
+          fi
