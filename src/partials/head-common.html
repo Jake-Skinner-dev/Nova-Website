@@ -6,12 +6,16 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
-<!--
-  ANALYTICS — deliberately OFF on the dev branch so staging/preview traffic
-  never counts toward real GA4 numbers. The live `main` branch's copy of
-  this file has the real Google tag (GA4 id G-3HV4TL91B1) wired in; keep
-  the two branches diverged on this file rather than merging main's
-  analytics block back into dev.
--->
+<!-- Google tag (gtag.js) — shared across every page via this partial.
+     LIVE branch only: dev's copy of this file deliberately omits this so
+     staging/preview traffic never counts toward real GA4 numbers — don't
+     merge dev's version of this file back over this one. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3HV4TL91B1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3HV4TL91B1');
+</script>
 
 <link rel="stylesheet" href="/src/style.css" />
