@@ -12,7 +12,7 @@ declare(strict_types=1);
 // ---------------------------------------------------------------------
 // Configuration — update this before going live.
 // ---------------------------------------------------------------------
-const RECIPIENT_EMAIL = 'jake@novasocial.co.uk';
+const RECIPIENT_EMAIL = 'jake.skinner@novasocial.co.uk';
 const SITE_NAME = 'Nova Social';
 
 header('Content-Type: application/json; charset=utf-8');
