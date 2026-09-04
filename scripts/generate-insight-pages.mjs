@@ -131,14 +131,14 @@ async function main() {
 <meta property="og:title" content="${title} | Nova Social Insights" />
 <meta property="og:description" content="${description}" />
 <meta property="og:url" content="${url}" />
-<meta property="og:image" content="https://www.novasocial.co.uk/assets/nova-logo-square.png" />
+<meta property="og:image" content="https://www.novasocial.co.uk/icon-512.png" />
 <meta property="og:locale" content="en_GB" />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="${title} | Nova Social Insights" />
 <meta name="twitter:description" content="${description}" />
-<meta name="twitter:image" content="https://www.novasocial.co.uk/assets/nova-logo-square.png" />
+<meta name="twitter:image" content="https://www.novasocial.co.uk/icon-512.png" />
 
 <meta name="robots" content="index, follow" />
 <meta name="theme-color" content="#07080E" />
