@@ -11,16 +11,30 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const views = {
   loading: document.getElementById("view-loading"),
   login: document.getElementById("view-login"),
+  forgot: document.getElementById("view-forgot"),
+  reset: document.getElementById("view-reset"),
   dashboard: document.getElementById("view-dashboard")
 };
 function showView(name) {
   Object.entries(views).forEach(([key, el]) => { el.hidden = key !== name; });
 }
 
+// A password-reset email link lands back here with `type=recovery` in the
+// URL. Supabase's client parses that into a temporary session and fires a
+// PASSWORD_RECOVERY auth event -- but getSession() below would also see
+// that temporary session and (without this flag) route straight to the
+// dashboard instead of the "set a new password" screen.
+const isPasswordRecovery =
+  window.location.hash.includes("type=recovery") || new URLSearchParams(window.location.search).get("type") === "recovery";
+
 /* ---------------------------------------------------------------------
    Auth
    --------------------------------------------------------------------- */
 async function checkSession() {
+  if (isPasswordRecovery) {
+    showView("reset");
+    return;
+  }
   const { data } = await sb.auth.getSession();
   if (data.session) {
     showView("dashboard");
@@ -57,6 +71,80 @@ document.getElementById("login-form").addEventListener("submit", async (e) => {
 document.getElementById("logout-btn").addEventListener("click", async () => {
   await sb.auth.signOut();
   showView("login");
+});
+
+/* ---------------------------------------------------------------------
+   Forgot / reset password
+   --------------------------------------------------------------------- */
+document.getElementById("show-forgot").addEventListener("click", () => {
+  document.getElementById("forgot-error").hidden = true;
+  document.getElementById("forgot-success").hidden = true;
+  showView("forgot");
+});
+document.getElementById("show-login").addEventListener("click", () => showView("login"));
+
+document.getElementById("forgot-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("forgot-email").value.trim();
+  const errorEl = document.getElementById("forgot-error");
+  const successEl = document.getElementById("forgot-success");
+  const submitBtn = document.getElementById("forgot-submit");
+  errorEl.hidden = true;
+  successEl.hidden = true;
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending…";
+
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + "/admin/"
+  });
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Send reset link";
+
+  if (error) {
+    errorEl.textContent = "Could not send reset link: " + error.message;
+    errorEl.hidden = false;
+    return;
+  }
+  // Don't reveal whether the email is a real admin account either way --
+  // Supabase itself returns success regardless, so this message is accurate.
+  successEl.hidden = false;
+  document.getElementById("forgot-form").reset();
+});
+
+document.getElementById("reset-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const password = document.getElementById("reset-password").value;
+  const confirm = document.getElementById("reset-password-confirm").value;
+  const errorEl = document.getElementById("reset-error");
+  const submitBtn = document.getElementById("reset-submit");
+  errorEl.hidden = true;
+
+  if (password !== confirm) {
+    errorEl.textContent = "Passwords don't match.";
+    errorEl.hidden = false;
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Updating…";
+
+  const { error } = await sb.auth.updateUser({ password });
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Update password";
+
+  if (error) {
+    errorEl.textContent = "Could not update password: " + error.message;
+    errorEl.hidden = false;
+    return;
+  }
+
+  // Clear the recovery params from the URL so a refresh doesn't re-trigger
+  // the reset screen, then go straight into the now-updated account.
+  window.history.replaceState({}, "", window.location.pathname);
+  showView("dashboard");
+  loadAll();
 });
 
 /* ---------------------------------------------------------------------
@@ -405,6 +493,14 @@ document.getElementById("add-article").addEventListener("click", async () => {
    Boot
    --------------------------------------------------------------------- */
 checkSession();
-sb.auth.onAuthStateChange((_event, session) => {
-  if (!session) showView("login");
+sb.auth.onAuthStateChange((event, session) => {
+  if (event === "PASSWORD_RECOVERY") {
+    showView("reset");
+    return;
+  }
+  // Don't bounce someone off the "forgot password" screen back to login --
+  // they legitimately have no session yet at that point.
+  if (!session && views.forgot.hidden && views.reset.hidden) {
+    showView("login");
+  }
 });
