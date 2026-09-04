@@ -95,7 +95,10 @@ document.getElementById("forgot-form").addEventListener("submit", async (e) => {
   submitBtn.textContent = "Sending…";
 
   const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + "/admin/"
+    // Hardcoded rather than window.location.origin -- otherwise a reset
+    // requested from the local dev server or a Vercel preview bakes that
+    // URL into the emailed link instead of the real production admin page.
+    redirectTo: "https://www.novasocial.co.uk/admin/"
   });
 
   submitBtn.disabled = false;
