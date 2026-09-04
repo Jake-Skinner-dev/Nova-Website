@@ -46,6 +46,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.novasocial.co.uk/insights/another-step-forward-for-ai.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.novasocial.co.uk/insights/why-consistency-matters-more-than-going-viral.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
