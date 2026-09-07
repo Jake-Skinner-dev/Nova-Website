@@ -3,21 +3,20 @@
 #
 # Nova Brief deploys to its OWN subdomain document root, separate from the
 # parent Nova Social site. Set this up as a SECOND cPanel Git Version
-# Control clone of this repository (or a second checkout), with the
-# "Repository Path" pointed anywhere outside public_html, and this file as
-# the checked-out .cpanel.yml.
-#
-# Confirm the real document root for brief.novasocial.co.uk in cPanel
-# (Domains → brief.novasocial.co.uk → Document Root). On 123 Reg it is
-# usually /home/<cpanel-user>/brief.novasocial.co.uk. Update DEPLOYPATH
-# below to match before the first deploy.
+# Control clone of this repository:
+#   Repository Path : /home/o5l9nmc9gw7j/repositories/Nova-Brief  (the git
+#                     checkout; .cpanel.yml runs from here)
+#   DEPLOYPATH below : the document root the web server serves for
+#                     brief.novasocial.co.uk
 #
 # This copies the pre-built brief/dist/ folder into that document root and
 # never deletes anything already there.
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/o5l9nmc9gw7j/repositories/Nova-Brief
-    - /bin/cp -R brief/dist/. $DEPLOYPATH
-    # Vite is inconsistent about copying dotfiles out of public/, so place
-    # the .htaccess explicitly too. Harmless if dist/ already contains it.
-    - /bin/cp brief/public/.htaccess $DEPLOYPATH.htaccess || true
+    - export DEPLOYPATH=/home/o5l9nmc9gw7j/public_html/brief.novasocial.co.uk
+    - /bin/mkdir -p $DEPLOYPATH
+    - /bin/cp -R brief/dist/. $DEPLOYPATH/
+    # dist/ already contains .htaccess (copied from brief/public/ at build);
+    # re-copy it explicitly as a belt-and-braces in case Vite skipped the
+    # dotfile. Note the slash before .htaccess.
+    - /bin/cp brief/public/.htaccess $DEPLOYPATH/.htaccess || true
