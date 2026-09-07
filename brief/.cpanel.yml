@@ -16,7 +16,7 @@
 # never deletes anything already there.
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/o5l9nmc9gw7j/brief.novasocial.co.uk/
+    - export DEPLOYPATH=/home/o5l9nmc9gw7j/repositories/Nova-Brief
     - /bin/cp -R brief/dist/. $DEPLOYPATH
     # Vite is inconsistent about copying dotfiles out of public/, so place
     # the .htaccess explicitly too. Harmless if dist/ already contains it.
