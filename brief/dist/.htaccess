@@ -1,0 +1,38 @@
+# Nova Brief — Apache config for the brief.novasocial.co.uk document root.
+# Deployed by brief/.cpanel.yml. Safe on standard 123 Reg / cPanel hosting.
+
+Options -MultiViews
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force https + non-www (adjust if the subdomain is served differently).
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Clean URLs: /hovis-4m-brand-campaign  ->  /hovis-4m-brand-campaign.html
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}\.html -f
+  RewriteRule ^([^.]+)$ $1.html [L]
+
+  # If someone hits the .html directly, send them to the clean URL.
+  RewriteCond %{THE_REQUEST} \s/+([^.\s]+)\.html[\s?] [NC]
+  RewriteRule ^ /%1 [L,R=301]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# Long cache for fingerprinted build assets; short for HTML.
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|woff2?|png|jpg|jpeg|gif|svg|webp|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=600, must-revalidate"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --- Ad / partner integration headers can be added here later. ---

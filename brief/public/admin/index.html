@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nova Brief — Editor</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  :root {
+    --paper: #FBFAF7; --sunken: #F3F1EC; --card: #FFFFFF; --ink: #14141A;
+    --ink-soft: #55555F; --ink-faint: #8A8A96; --rule: #E7E3DB; --rule-strong: #D8D2C6;
+    --peach: #FEBE98; --peach-deep: #B4652F; --indigo: #4F46D6;
+    --ok: #3E8F52; --warn: #A9772A; --err: #C0483E;
+    --fh: "Manrope", system-ui, sans-serif; --fb: "Inter", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--fb); font-size: 15px; line-height: 1.55; }
+  a { color: var(--indigo); }
+  h1, h2, h3 { font-family: var(--fh); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 28px 22px 96px; }
+
+  .topbar { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+  .wm { display: inline-flex; flex-direction: column; gap: 3px; }
+  .wm strong { font-family: var(--fh); font-weight: 800; font-size: 19px; letter-spacing: -0.03em; }
+  .wm .brief { color: var(--peach-deep); }
+  .wm .rule { width: 30px; height: 3px; border-radius: 2px; background: var(--peach); }
+  .topbar .spacer { margin-left: auto; }
+
+  .hint { color: var(--ink-soft); font-size: 13.5px; margin: 0 0 20px; }
+  .card { background: var(--card); border: 1px solid var(--rule); border-radius: 16px; padding: 24px; }
+  .center { min-height: 66vh; display: flex; align-items: center; justify-content: center; }
+
+  label.f { display: grid; gap: 5px; margin-bottom: 14px; }
+  label.f > span { font-size: 11px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+  input, textarea, select {
+    background: var(--paper); border: 1px solid var(--rule-strong); border-radius: 9px;
+    color: var(--ink); font: inherit; padding: 10px 12px; outline: none; width: 100%;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--ink); }
+  textarea { resize: vertical; line-height: 1.6; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .span-2 { grid-column: span 2; }
+  @media (max-width: 720px) { .row-2, .row-3 { grid-template-columns: 1fr; } .span-2 { grid-column: auto; } }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    font-family: var(--fh); font-weight: 700; font-size: 14px; border-radius: 999px;
+    border: 1px solid transparent; cursor: pointer; padding: 10px 18px;
+    transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+  }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--ink); color: var(--paper); }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-1px); }
+  .btn-peach { background: var(--peach); color: var(--ink); }
+  .btn-ghost { background: var(--card); color: var(--ink); border-color: var(--rule-strong); }
+  .btn-ghost:hover:not(:disabled) { border-color: var(--ink); }
+  .btn-danger { background: #F9E7E4; color: var(--err); border-color: #efc9c3; }
+  .btn-sm { padding: 7px 13px; font-size: 12.5px; }
+
+  .msg { font-size: 13.5px; margin: 12px 0 0; }
+  .msg.ok { color: var(--ok); }
+  .msg.err { color: var(--err); }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .tab-btn {
+    padding: 9px 15px; border-radius: 999px; border: 1px solid var(--rule-strong);
+    background: var(--card); color: var(--ink-soft); font-family: var(--fh); font-weight: 700;
+    font-size: 13px; cursor: pointer;
+  }
+  .tab-btn.is-active { border-color: var(--ink); color: var(--ink); background: var(--sunken); }
+  [hidden] { display: none !important; }
+
+  /* Overview */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  @media (max-width: 860px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stat-box { border: 1px solid var(--rule); border-radius: 14px; padding: 16px 18px; background: var(--card); }
+  .stat-box .n { font-family: var(--fh); font-weight: 800; font-size: 30px; letter-spacing: -0.03em; }
+  .stat-box .l { font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; margin-top: 2px; }
+  .stat-box.alert { border-color: var(--peach-deep); background: #FDEDE1; }
+  .activity { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+  .activity .a-row { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--rule); font-size: 13.5px; }
+  .activity .a-row .a-t { color: var(--ink); font-weight: 500; }
+  .activity .a-row .a-d { color: var(--ink-faint); font-size: 12px; white-space: nowrap; }
+
+  /* Status pills */
+  .pill { font-family: var(--fb); font-weight: 700; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; white-space: nowrap; }
+  .pill.draft { background: #ECEAE4; color: #55555F; }
+  .pill.review { background: #F7EEDD; color: #A9772A; }
+  .pill.approved { background: #E4EDF9; color: #2F6BB4; }
+  .pill.scheduled { background: #EBE6F9; color: #6A4FB4; }
+  .pill.published { background: #E4F1E7; color: #3E8F52; }
+  .pill.archived { background: #F1EEEA; color: #8A8A96; }
+  .pill.ai { background: #ECEBFB; color: #4F46D6; }
+
+  /* Lists */
+  .list-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  .list-toolbar input, .list-toolbar select { width: auto; }
+  .list-toolbar .spacer { margin-left: auto; }
+  .rowlist { display: grid; gap: 8px; }
+  .rowlist .r {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center;
+    border: 1px solid var(--rule); border-radius: 12px; padding: 12px 14px; background: var(--card);
+  }
+  .rowlist .r .r-title { font-family: var(--fh); font-weight: 700; font-size: 14.5px; }
+  .rowlist .r .r-meta { font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
+  .rowlist .r .r-actions { display: flex; gap: 6px; }
+
+  .editor-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .editor-head .spacer { margin-left: auto; }
+  .divider { height: 1px; background: var(--rule); margin: 22px 0; }
+  .sub-head { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; margin: 4px 0 12px; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+  .check input { width: auto; }
+  .workflow-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .note { font-size: 12.5px; color: var(--ink-soft); background: var(--sunken); border-radius: 10px; padding: 12px 14px; margin: 14px 0; }
+  .thumb { width: 128px; height: 74px; object-fit: cover; border-radius: 8px; border: 1px solid var(--rule); }
+  .file-label { display: inline-block; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rule-strong); background: var(--card); font-family: var(--fh); font-weight: 700; font-size: 12.5px; cursor: pointer; }
+  .file-label input { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="wm"><strong>Nova<span class="brief">&nbsp;Brief</span></strong><span class="rule"></span></span>
+    <strong style="font-family:var(--fh);color:var(--ink-soft);">Editor</strong>
+    <div class="spacer"></div>
+    <a href="/" style="font-size:13px;">&larr; View site</a>
+  </div>
+
+  <div id="view-loading" class="center"><p class="hint">Loading&hellip;</p></div>
+
+  <div id="view-login" hidden>
+    <div class="card" style="max-width:400px;margin:0 auto;">
+      <h2>Sign in</h2>
+      <p class="hint">Manage Nova Brief articles, stats and the Weekly Brief.</p>
+      <form id="login-form">
+        <label class="f"><span>Email</span><input type="email" id="login-email" required autocomplete="username" /></label>
+        <label class="f"><span>Password</span><input type="password" id="login-password" required autocomplete="current-password" /></label>
+        <button type="submit" class="btn btn-primary" style="width:100%;" id="login-submit">Sign in</button>
+        <p class="msg err" id="login-error" hidden></p>
+      </form>
+      <p style="text-align:center;margin:14px 0 0;">
+        <button type="button" id="show-forgot" style="background:none;border:none;color:var(--ink-soft);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">Forgot password?</button>
+      </p>
+    </div>
+  </div>
+
+  <div id="view-forgot" hidden>
+    <div class="card" style="max-width:400px;margin:0 auto;">
+      <h2>Reset your password</h2>
+      <p class="hint">Enter your email and we&rsquo;ll send a reset link.</p>
+      <form id="forgot-form">
+        <label class="f"><span>Email</span><input type="email" id="forgot-email" required autocomplete="username" /></label>
+        <button type="submit" class="btn btn-primary" style="width:100%;" id="forgot-submit">Send reset link</button>
+        <p class="msg err" id="forgot-error" hidden></p>
+        <p class="msg ok" id="forgot-success" hidden>Check your inbox for a reset link.</p>
+      </form>
+      <p style="text-align:center;margin:14px 0 0;">
+        <button type="button" id="show-login" style="background:none;border:none;color:var(--ink-soft);font-size:13px;cursor:pointer;text-decoration:underline;padding:0;">&larr; Back to sign in</button>
+      </p>
+    </div>
+  </div>
+
+  <div id="view-reset" hidden>
+    <div class="card" style="max-width:400px;margin:0 auto;">
+      <h2>Set a new password</h2>
+      <form id="reset-form">
+        <label class="f"><span>New password</span><input type="password" id="reset-password" required minlength="8" autocomplete="new-password" /></label>
+        <label class="f"><span>Confirm password</span><input type="password" id="reset-confirm" required minlength="8" autocomplete="new-password" /></label>
+        <button type="submit" class="btn btn-primary" style="width:100%;" id="reset-submit">Update password</button>
+        <p class="msg err" id="reset-error" hidden></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="view-dashboard" hidden>
+    <div class="tabs">
+      <button type="button" class="tab-btn is-active" data-tab="overview">Overview</button>
+      <button type="button" class="tab-btn" data-tab="articles">Articles</button>
+      <button type="button" class="tab-btn" data-tab="stats">Killer Stats</button>
+      <button type="button" class="tab-btn" data-tab="editions">Weekly Briefs</button>
+      <button type="button" class="tab-btn" data-tab="subscribers">Subscribers</button>
+      <button type="button" class="tab-btn" data-tab="brands">Brands</button>
+      <div class="spacer" style="flex:1;"></div>
+      <button type="button" class="btn btn-ghost btn-sm" id="logout-btn">Log out</button>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section id="tab-overview">
+      <div class="stat-grid" id="stat-grid"></div>
+      <div class="card">
+        <h3 style="font-size:15px;">Recent activity</h3>
+        <p class="hint" style="margin-bottom:12px;">The last articles you touched. Published pages appear on the live site after the next site build &amp; deploy.</p>
+        <div class="activity" id="activity"></div>
+      </div>
+    </section>
+
+    <!-- ARTICLES -->
+    <section id="tab-articles" hidden>
+      <div id="articles-list-view">
+        <div class="list-toolbar">
+          <input type="search" id="article-search" placeholder="Search headlines…" />
+          <select id="article-status-filter">
+            <option value="">All statuses</option>
+            <option value="draft">Draft</option>
+            <option value="review">In review</option>
+            <option value="approved">Approved</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="published">Published</option>
+            <option value="archived">Archived</option>
+          </select>
+          <div class="spacer"></div>
+          <button type="button" class="btn btn-peach btn-sm" id="new-article">+ New article</button>
+        </div>
+        <div class="rowlist" id="article-list"></div>
+      </div>
+
+      <div id="article-editor-view" hidden>
+        <div class="editor-head">
+          <button type="button" class="btn btn-ghost btn-sm" id="article-back">&larr; All articles</button>
+          <span class="pill" id="editor-status-pill">draft</span>
+          <span class="pill ai" id="editor-ai-pill" hidden>AI draft</span>
+          <div class="spacer"></div>
+          <button type="button" class="btn btn-danger btn-sm" id="article-delete">Delete</button>
+        </div>
+
+        <form id="article-form" class="card">
+          <div class="row-2">
+            <label class="f"><span>Content type</span>
+              <select id="a-content_type">
+                <option>News</option><option>Campaign</option><option>Analysis</option>
+                <option>Opinion</option><option>Killer Stat</option><option>Weekly Brief</option>
+                <option>Campaign Breakdown</option><option>Nova Take</option><option>Sponsored</option>
+              </select>
+            </label>
+            <label class="f"><span>Category</span>
+              <select id="a-category">
+                <option>News</option><option>Campaigns</option><option>Advertising</option>
+                <option>Social</option><option>Branding</option><option>Digital</option>
+                <option>AI</option><option>Agencies</option><option>Trends</option><option>Stats</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="f"><span>Headline</span><input type="text" id="a-headline" /></label>
+          <label class="f"><span>Slug (URL)</span><input type="text" id="a-slug" /></label>
+          <p class="hint" id="a-url-hint" style="margin-top:-8px;"></p>
+
+          <label class="f"><span>Standfirst</span><textarea id="a-standfirst" rows="2"></textarea></label>
+
+          <label class="f"><span>Body</span><textarea id="a-body" rows="16"></textarea></label>
+          <p class="note">Body formatting: blank line between paragraphs &middot; <code>## Subhead</code> &middot; <code>### Small subhead</code> &middot; <code>&gt; Pull quote</code> &middot; <code>- list item</code> &middot; <code>[[stat: 73% | short caption | https://source]]</code> &middot; <code>[link text](https://url)</code> &middot; <code>**bold**</code>.</p>
+
+          <div class="row-2">
+            <label class="f"><span>Author</span><input type="text" id="a-author" placeholder="Nova Brief" /></label>
+            <label class="f"><span>Reading minutes (blank = auto)</span><input type="number" id="a-reading_minutes" min="1" /></label>
+          </div>
+
+          <div class="divider"></div>
+          <p class="sub-head">Image</p>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
+            <img id="a-thumb" class="thumb" alt="" hidden />
+            <div id="a-thumb-empty" class="thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink-faint);border-style:dashed;">NO IMAGE</div>
+            <label class="file-label">Upload<input type="file" id="a-image-file" accept="image/*" /></label>
+            <button type="button" class="btn btn-ghost btn-sm" id="a-image-clear">Remove</button>
+          </div>
+          <label class="f"><span>Featured image URL</span><input type="text" id="a-featured_image_url" /></label>
+          <label class="f"><span>Image alt text</span><input type="text" id="a-featured_image_alt" /></label>
+          <label class="f"><span>Social share image URL (blank = featured image)</span><input type="text" id="a-social_image_url" /></label>
+
+          <div class="divider"></div>
+          <p class="sub-head">SEO &amp; taxonomy</p>
+          <label class="f"><span>SEO title (blank = headline)</span><input type="text" id="a-seo_title" /></label>
+          <label class="f"><span>Meta description</span><textarea id="a-meta_description" rows="2"></textarea></label>
+          <div class="row-2">
+            <label class="f"><span>Tags (comma separated)</span><input type="text" id="a-tags" /></label>
+            <label class="f"><span>Brand (optional)</span><input type="text" id="a-brand" placeholder="e.g. Hovis" /></label>
+          </div>
+          <div class="row-2">
+            <label class="f"><span>Source name</span><input type="text" id="a-source_name" /></label>
+            <label class="f"><span>Source URL</span><input type="text" id="a-source_url" /></label>
+          </div>
+
+          <div class="divider"></div>
+          <p class="sub-head">Editorial extras</p>
+          <label class="f"><span>The Nova Take (optional short opinion shown in a box)</span><textarea id="a-nova_take" rows="2"></textarea></label>
+          <div class="row-2">
+            <label class="check"><input type="checkbox" id="a-is_sponsored" /> Sponsored / partner content</label>
+            <label class="f"><span>Sponsor name</span><input type="text" id="a-sponsor_name" /></label>
+          </div>
+          <label class="f"><span>Homepage placement</span>
+            <select id="a-homepage_slot">
+              <option value="none">None</option>
+              <option value="top_story">Top Story</option>
+              <option value="quick_read">Quick Reads</option>
+              <option value="campaign_of_week">Campaign of the Week</option>
+              <option value="story_of_week">Story of the Week</option>
+              <option value="focus_ai">Focus: AI</option>
+              <option value="focus_social">Focus: Social</option>
+              <option value="focus_brand">Focus: Brand</option>
+              <option value="focus_advertising">Focus: Advertising</option>
+            </select>
+          </label>
+          <label class="f"><span>Sort order (lower shows first within a slot)</span><input type="number" id="a-sort_order" value="0" /></label>
+
+          <div class="divider"></div>
+          <p class="sub-head">Workflow</p>
+          <div class="row-2">
+            <label class="f"><span>Status</span>
+              <select id="a-status">
+                <option value="draft">Draft</option>
+                <option value="review">In review</option>
+                <option value="approved">Approved</option>
+                <option value="scheduled">Scheduled</option>
+                <option value="published">Published</option>
+                <option value="archived">Archived</option>
+              </select>
+            </label>
+            <label class="f"><span>Publish / schedule date &amp; time</span><input type="datetime-local" id="a-published_at" /></label>
+          </div>
+          <div class="note" id="ai-guard-note" hidden>This draft came from the automated ingest. Move it through <strong>In review &rarr; Approved &rarr; Published</strong> yourself — it can&rsquo;t publish on its own.</div>
+          <div class="workflow-actions" style="margin-top:6px;">
+            <button type="button" class="btn btn-ghost btn-sm" data-quick-status="review">Send to review</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-quick-status="approved">Approve</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-quick-status="scheduled">Mark scheduled</button>
+            <button type="button" class="btn btn-peach btn-sm" data-quick-status="published">Publish now</button>
+          </div>
+
+          <div class="divider"></div>
+          <div style="display:flex;gap:10px;">
+            <button type="submit" class="btn btn-primary" id="article-save">Save</button>
+            <button type="button" class="btn btn-ghost" id="article-duplicate">Duplicate</button>
+          </div>
+          <p class="msg" id="article-msg" hidden></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- KILLER STATS -->
+    <section id="tab-stats" hidden>
+      <div class="list-toolbar">
+        <p class="hint" style="margin:0;">Shown in the homepage &ldquo;Killer Stats&rdquo; section, lowest sort order first.</p>
+        <div class="spacer"></div>
+        <button type="button" class="btn btn-peach btn-sm" id="new-stat">+ New stat</button>
+      </div>
+      <div class="rowlist" id="stat-list"></div>
+    </section>
+
+    <!-- WEEKLY BRIEFS -->
+    <section id="tab-editions" hidden>
+      <div class="list-toolbar">
+        <p class="hint" style="margin:0;">The latest published edition shows on the homepage as &ldquo;The Weekly Brief&rdquo;.</p>
+        <div class="spacer"></div>
+        <button type="button" class="btn btn-peach btn-sm" id="new-edition">+ New edition</button>
+      </div>
+      <div class="rowlist" id="edition-list"></div>
+    </section>
+
+    <!-- SUBSCRIBERS -->
+    <section id="tab-subscribers" hidden>
+      <div class="list-toolbar">
+        <p class="hint" style="margin:0;" id="subscriber-count-line">&nbsp;</p>
+        <div class="spacer"></div>
+        <button type="button" class="btn btn-ghost btn-sm" id="copy-subscribers">Copy all as CSV</button>
+      </div>
+      <div class="rowlist" id="subscriber-list"></div>
+    </section>
+
+    <!-- BRANDS -->
+    <section id="tab-brands" hidden>
+      <p class="hint">Brands are created automatically from the &ldquo;Brand&rdquo; field on articles. Add a blurb here and a <code>/brands/&lt;slug&gt;</code> page is built for them.</p>
+      <div class="list-toolbar">
+        <div class="spacer"></div>
+        <button type="button" class="btn btn-peach btn-sm" id="new-brand">+ New brand</button>
+      </div>
+      <div class="rowlist" id="brand-list"></div>
+    </section>
+  </div>
+</div>
+
+<script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+name: Rebuild Nova Brief pages
+
+# Keeps brief/dist/ (one static page per published article, plus section
+# pages, sitemap.xml and rss.xml — see brief/scripts/generate-articles.mjs)
+# in sync with Supabase, so publishing/editing in the Nova Brief admin
+# doesn't need someone to run `npm run build` by hand.
+#
+# Independent of the parent site's "Rebuild Insights pages" workflow —
+# different folder, different Supabase tables. Delete this file to turn the
+# automation off; the manual build/commit/deploy flow still works.
+#
+# This does NOT reach the live cPanel subdomain — the Nova Brief cPanel Git
+# Version Control repo still needs "Update from Remote" + "Deploy HEAD
+# Commit" (or a webhook) to copy new files into the document root.
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+        working-directory: brief
+
+      - run: npm run build
+        working-directory: brief
+
+      - name: Commit and push if content changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add brief/dist/
+          if git diff --cached --quiet; then
+            echo "No Nova Brief content changes — nothing to publish."
+          else
+            git commit -m "Auto-publish: rebuild Nova Brief pages from Supabase"
+            git push
+          fi

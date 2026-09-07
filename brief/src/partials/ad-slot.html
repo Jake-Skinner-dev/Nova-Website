@@ -1,0 +1,16 @@
+<!--
+  Reusable ad placeholder. Nothing renders until the slot is switched on
+  by adding `is-live` to the .ad-slot element (and dropping a real creative
+  or ad-tag inside .ad-inner). Left off by design — Nova Brief ships with
+  no advertising.
+
+  Documented placements (see brief/README.md → Advertising):
+    below-header · in-feed · article-mid · article-end
+    newsletter-sponsor · killer-stat-sponsor · campaign-sponsor
+
+  Size modifiers: .ad-slot--leaderboard  .ad-slot--mpu  .ad-slot--native
+-->
+<div class="ad-slot ad-slot--leaderboard" data-ad="below-header" role="complementary" aria-label="Advertisement">
+  <span class="ad-label">Advertisement</span>
+  <div class="ad-inner">Ad space</div>
+</div>

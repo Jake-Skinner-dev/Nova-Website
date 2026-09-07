@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Search | Nova Brief</title>
+<meta name="description" content="Search Nova Brief — stories, campaigns, brands, topics and authors." />
+<link rel="canonical" href="https://brief.novasocial.co.uk/search.html" />
+<meta name="robots" content="noindex, follow" />
+<!--@include head-common-->
+</head>
+<body data-page="search">
+<!--@include header-->
+<main id="main">
+  <div class="container container--narrow">
+    <div class="listing-head" data-reveal>
+      <span class="kicker kicker--plain">Search</span>
+      <h1>Search Nova Brief</h1>
+      <form role="search" onsubmit="return false;">
+        <div class="masthead-search" style="width:100%;max-width:none;padding:12px 16px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="search-input" placeholder="Stories, campaigns, brands, topics, authors…" aria-label="Search Nova Brief" autocomplete="off" autofocus />
+        </div>
+      </form>
+      <p class="meta-line" id="search-summary">Type to search stories, campaigns, brands, topics and authors.</p>
+    </div>
+    <section data-reveal>
+      <div class="daily-brief-list" id="search-results"></div>
+    </section>
+  </div>
+  <!--@include newsletter-cta-->
+</main>
+<!--@include footer-->
+<script src="/src/main.js" type="module"></script>
+</body>
+</html>
