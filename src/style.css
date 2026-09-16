@@ -2166,3 +2166,10 @@ body[data-page="services"] .closing-section { padding-top: 48px; }
   .team-contact:focus-visible .team-contact-hint { display: block; }
 }
 .team-contact:focus-visible { outline: 2px solid var(--peach); outline-offset: 5px; }
+
+.team-contact { width: 100%; text-align: left; font: inherit; }
+.modal--team { max-width: 620px; }
+.team-modal-role { color: var(--peach); margin: 0 0 28px; }
+.team-modal-heading { font-size: 20px; margin: 0 0 16px; }
+.team-modal-copy { color: var(--text-muted); font-size: 16px; line-height: 1.8; margin: 0 0 18px; }
+.modal--team .btn-soft { margin-top: 10px; }

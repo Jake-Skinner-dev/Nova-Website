@@ -174,6 +174,11 @@ document.querySelectorAll("[data-close-modal]").forEach((btn) => {
 /* ---------------------------------------------------------------------
    Contact modal
    --------------------------------------------------------------------- */
+const teamBackdrop = document.getElementById("team-backdrop");
+document.querySelectorAll("[data-open-team]").forEach((trigger) => {
+  trigger.addEventListener("click", () => openModal(teamBackdrop));
+});
+
 const contactBackdrop = document.getElementById("contact-backdrop");
 const contactForm = document.getElementById("contact-form");
 const contactFormPanel = document.getElementById("contact-form-panel");
@@ -183,6 +188,7 @@ const contactSubmit = document.getElementById("cf-submit");
 const articleBackdrop = document.getElementById("article-backdrop");
 
 function openContact(prefillNeed) {
+  if (teamBackdrop) closeModal(teamBackdrop);
   if (articleBackdrop) closeModal(articleBackdrop);
   if (discoveryBackdrop) closeModal(discoveryBackdrop);
   contactFormPanel.hidden = false;

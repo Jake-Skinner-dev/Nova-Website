@@ -55,13 +55,13 @@
     <section class="team-section" data-reveal aria-labelledby="team-heading">
       <div class="team-layout">
         <div class="team-intro"><p class="kicker">THE PEOPLE BEHIND NOVA</p><h2 id="team-heading">Meet the team.</h2><p>A name, a face and a conversation.<br>Get to know who’s behind the work.</p></div>
-        <a class="team-profile team-contact" href="/contact.html" data-open-contact aria-label="Say hello to Jake Skinner, Managing Director">
+        <button type="button" class="team-profile team-contact" data-open-team aria-haspopup="dialog" aria-controls="team-backdrop" aria-label="Meet Jake Skinner, Managing Director">
           <div class="team-profile-head">
             <img src="/assets/jake-skinner-navy.webp" alt="" width="600" height="600" loading="lazy" decoding="async" />
             <div><h3 class="team-name" id="jake-name">Jake Skinner</h3><p class="team-role">Managing Director</p></div>
           </div>
-          <span class="team-contact-hint" aria-hidden="true">Say hello ↗</span>
-        </a>
+          <span class="team-contact-hint" aria-hidden="true">Meet Jake ↗</span>
+        </button>
       </div>
     </section>
 
@@ -158,6 +158,21 @@
 </main>
 
 <!--@include footer-->
+<div class="modal-backdrop" id="team-backdrop" data-close-on-backdrop>
+  <div class="modal modal--team" role="dialog" aria-modal="true" aria-labelledby="team-modal-title">
+    <button type="button" class="modal-close" data-close-modal aria-label="Close Jake’s profile">&#215;</button>
+    <div class="modal-body">
+      <div class="modal-eyebrow">MEET THE TEAM</div>
+      <h2 id="team-modal-title">Jake Skinner</h2>
+      <p class="team-modal-role">Managing Director</p>
+      <h3 class="team-modal-heading">Why I started Nova</h3>
+      <p class="team-modal-copy">I started Nova because I felt there was room for a more creative, considered and professional approach to marketing. I wanted to build a business where the work catches your eye and the experience feels personal.</p>
+      <p class="team-modal-copy">For me, that means taking the time to understand each brand, caring about the details and creating something people want to connect with. That’s the standard I want Nova to bring to every project.</p>
+      <a href="/contact.html" class="btn-soft" data-open-contact>Say hello to Jake <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</div>
+
 <!--@include modal-contact-->
 <!--@include modal-discovery-->
 
