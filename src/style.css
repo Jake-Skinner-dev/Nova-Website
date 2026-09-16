@@ -2150,12 +2150,19 @@ body[data-page="services"] .closing-section { padding-top: 48px; }
 .team-profile-head { display: flex; align-items: center; gap: 22px; }
 .team-profile-head img { width: 110px; height: 110px; flex-basis: 110px; }
 .team-profile-head .team-role { margin: 7px 0 0; }
-.team-bio { margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--border); }
-.team-bio .kicker { margin-bottom: 14px !important; }
-.team-bio > p:not(.kicker) { font-size: 15px; line-height: 1.8; color: var(--text-muted); margin: 0 0 16px; }
-.team-profile > .text-link { margin-top: 4px; color: var(--peach); }
 @media (max-width: 760px) { .team-intro { padding-top: 0; } }
 @media (max-width: 380px) {
   .team-profile-head { gap: 16px; }
   .team-profile-head img { width: 90px; height: 90px; flex-basis: 90px; }
 }
+
+/* The whole team bar is an invitation, with a branded desktop cursor. */
+.team-contact { color: var(--text); text-decoration: none; transition: border-color .2s, background .2s; }
+.team-contact:hover { color: var(--text); border-color: var(--peach); background: #27283e; }
+.team-contact-hint { display: block; margin-top: 16px; color: var(--peach); font-size: 14px; font-weight: 600; }
+@media (hover: hover) and (pointer: fine) {
+  .team-contact, .team-contact * { cursor: url('/assets/say-hello-cursor.svg') 4 20, pointer; }
+  .team-contact-hint { display: none; }
+  .team-contact:focus-visible .team-contact-hint { display: block; }
+}
+.team-contact:focus-visible { outline: 2px solid var(--peach); outline-offset: 5px; }
