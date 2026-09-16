@@ -2064,3 +2064,30 @@ section { padding: 30px 0 120px; }
 .motion-paused .service-panel {
   animation: none !important;
 }
+
+/* About Nova — the person and story behind the brand. */
+.director-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 90px);
+}
+.director-profile { margin: 0; max-width: 440px; }
+.director-profile img { width: 100%; height: auto; border-radius: 8px; }
+.director-profile figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-top: 20px;
+}
+.director-name { font-family: var(--font-heading); font-size: 22px; font-weight: 600; }
+.director-role { color: var(--peach); font-size: 14px; }
+.director-story h2 { font-size: clamp(32px, 3.8vw, 52px); font-weight: 500; line-height: 1.15; letter-spacing: -.04em; margin-bottom: 26px; }
+.director-story > p:not(.kicker) { color: var(--text-muted); font-size: 16px; line-height: 1.8; margin: 0 0 20px; }
+.director-story .about-tags { margin-top: 30px; }
+@media (max-width: 760px) {
+  .director-layout { grid-template-columns: 1fr; gap: 40px; }
+  .director-profile { width: 100%; }
+  .director-profile figcaption { flex-wrap: wrap; gap: 4px 16px; }
+}
