@@ -45,16 +45,14 @@
   gtag('config', 'G-3HV4TL91B1');
 </script>
 
-  <script type="module" crossorigin src="./assets/main-DdctQ7Ht.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-DP6kLoWf.css">
+
+  <script type="module" crossorigin src="./assets/main-8aAYftcu.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/main-C1I9WV7-.css">
 </head>
 <body data-page="about">
 <a class="skip-link" href="#main-content">Skip to content</a>
 
-<div class="bg-glow" aria-hidden="true">
-  <span class="glow-a"></span>
-  <span class="glow-b"></span>
-</div>
+
 
 <header class="site-header" id="site-header">
   <nav class="nav" aria-label="Primary">
@@ -81,7 +79,7 @@
       <a href="/about.html" data-page="about">About</a>
       <a href="/contact.html" data-page="contact">Contact</a>
     </div>
-    <a href="#contact" class="btn-cta" data-open-contact>Work With Nova</a>
+    <a href="/contact.html" class="btn-cta" data-open-contact>Let’s talk <span aria-hidden="true">↗</span></a>
     <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
@@ -109,8 +107,9 @@
   <a href="/insights.html" data-page="insights">Insights</a>
   <a href="/about.html" data-page="about">About</a>
   <a href="/contact.html" data-page="contact">Contact</a>
-  <a href="#contact" class="btn-cta" data-open-contact>Work With Nova</a>
+  <a href="/contact.html" class="btn-cta" data-open-contact>Let’s talk <span aria-hidden="true">↗</span></a>
 </div>
+
 
 <main id="main-content">
   <div class="container">
@@ -119,26 +118,31 @@
         <span class="eyebrow">ABOUT NOVA</span>
         <span class="rule"></span>
       </div>
-      <h1 class="section-title" id="about-heading">Creative Thinking. Clear Strategy.</h1>
-      <p class="section-lede">How Nova Social approaches marketing, branding and social media.</p>
+      <h1 class="section-title" id="about-heading">Big on ideas.<br>Personal by nature.</h1>
+      <p class="section-lede">Get to know the people, ideas and care behind your next chapter.</p>
     </section>
 
-    <section data-reveal>
+    <section data-reveal aria-labelledby="our-story-heading">
       <div class="about">
+        <div><p class="kicker">FOUNDED OCTOBER 2025</p><h2 id="our-story-heading">Built on connection.</h2></div>
         <div>
-          <div class="about-tags">
-            <span>Creativity</span>
-            <span>Integrity</span>
-            <span>Collaboration</span>
-            <span>Innovation</span>
-            <span>Quality</span>
+          <p>Founded in October 2025, Nova Social was built around a simple idea: marketing should help businesses communicate better, not make things more complicated.</p>
+          <p>We like to start by listening. Whether you’re growing a business, sharing your work or bringing a club together, we take the time to understand what matters to you before we make a plan.</p>
+          <div class="about-tags" aria-label="Our values"><span>Creativity</span><span>Integrity</span><span>Collaboration</span><span>Innovation</span><span>Quality</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-section" data-reveal aria-labelledby="team-heading">
+      <div class="team-layout">
+        <div class="team-intro"><p class="kicker">THE PEOPLE BEHIND NOVA</p><h2 id="team-heading">Meet the team.</h2><p>A name, a face and a conversation.<br>Get to know who’s behind the work.</p></div>
+        <button type="button" class="team-profile team-contact" data-open-team aria-haspopup="dialog" aria-controls="team-backdrop" aria-label="Meet Jake Skinner, Managing Director">
+          <div class="team-profile-head">
+            <img src="./assets/jake-skinner-navy.webp" alt="" width="600" height="600" loading="lazy" decoding="async" />
+            <div><h3 class="team-name" id="jake-name">Jake Skinner</h3><p class="team-role">Managing Director</p></div>
           </div>
-        </div>
-        <div>
-          <p>Nova Social was built around a simple idea: marketing should help businesses communicate better, not make things more complicated.</p>
-          <p>We combine creativity, strategy and modern tools to help businesses and creators build stronger brands and grow their online presence.</p>
-          <p>Our approach is built around creativity, integrity, collaboration, innovation and consistent quality.</p>
-        </div>
+          <span class="team-contact-hint" aria-hidden="true">Meet Jake ↗</span>
+        </button>
       </div>
     </section>
 
@@ -147,7 +151,7 @@
         <div>
           <h2 id="process-heading">We Work With You,<br />Not Just For You.</h2>
           <p class="lede">The strongest marketing comes from understanding the people behind the brand.</p>
-          <p class="lede">We work closely with every client to understand their goals, audience and vision before creating a strategy around them.</p>
+          <p class="lede">We work closely with every client to understand their goals, audience and vision before creating a strategy around them.</p><div class="inline-action"><a href="/contact.html" class="btn-soft" data-open-contact>Tell us about your business <span aria-hidden="true">↗</span></a></div>
         </div>
         <div class="process-steps">
           <div class="process-step">
@@ -230,16 +234,8 @@
       </div>
     </section>
 
-    <section id="contact" data-reveal aria-labelledby="contact-heading">
-  <div class="contact-cta">
-    <h2 id="contact-heading">Ready To Build Something Better?</h2>
-    <p>Whether you need help managing your social media, strengthening your brand or building a clearer marketing strategy, we&#8217;d love to hear what you&#8217;re working on.</p>
-    <div class="row">
-      <button type="button" class="btn-primary is-large" data-open-discovery>Start A Conversation</button>
-      <a href="/contact.html" class="btn-ghost is-large">Get In Touch</a>
-    </div>
-  </div>
-</section>
+    <section class="closing-section" id="contact" data-reveal aria-labelledby="contact-heading"><div class="contact-cta"><p class="kicker">YOUR NEXT CHAPTER STARTS HERE.</p><h2 id="contact-heading">Let’s make<br><span>an impression.</span></h2><div class="row"><a href="/contact.html" class="btn-primary is-large" data-open-contact>Tell us what you’re thinking <span aria-hidden="true">↗</span></a><button type="button" class="btn-ghost is-large" data-open-discovery>Book a discovery call</button></div><p>Good conversations. Clear ideas. No pressure.</p></div></section>
+
   </div>
 </main>
 
@@ -250,7 +246,7 @@
         <div class="footer-brand-mark">
           <img src="./assets/nova-logo-trimmed.png" alt="Nova Social" width="354" height="154" />
         </div>
-        <p class="footer-tagline">Smart. Simple. Social.</p>
+        <p class="footer-tagline">Smart. Simple. Social.</p><p class="footer-location">Independent thinking.<br>Based in Leicester. Built around you.</p>
       </div>
       <div class="footer-col">
         <span class="heading">SITE</span>
@@ -272,13 +268,26 @@
         <a href="/admin/" class="admin-dot" title="Admin" aria-label="Site admin"></a>
         &#169; <span id="footer-year">2026</span> Nova Social. All rights reserved.
       </span>
-      <div class="legal-links">
-        <a href="#contact" data-open-contact>Privacy Policy</a>
-        <a href="#contact" data-open-contact>Terms</a>
-      </div>
+      <div class="legal-links"><a href="mailto:jake@novasocial.co.uk">jake@novasocial.co.uk ↗</a><a href="#main-content">Back to top ↑</a></div>
     </div>
   </div>
 </footer>
+
+<div class="modal-backdrop" id="team-backdrop" data-close-on-backdrop>
+  <div class="modal modal--team" role="dialog" aria-modal="true" aria-labelledby="team-modal-title">
+    <button type="button" class="modal-close" data-close-modal aria-label="Close Jake’s profile">&#215;</button>
+    <div class="modal-body">
+      <div class="modal-eyebrow">MEET THE TEAM</div>
+      <h2 id="team-modal-title">Jake Skinner</h2>
+      <p class="team-modal-role">Managing Director</p>
+      <h3 class="team-modal-heading">Why I started Nova</h3>
+      <p class="team-modal-copy">I started Nova because I felt there was room for a more creative, considered and professional approach to marketing. I wanted to build a business where the work catches your eye and the experience feels personal.</p>
+      <p class="team-modal-copy">For me, that means taking the time to understand each brand, caring about the details and creating something people want to connect with. That’s the standard I want Nova to bring to every project.</p>
+      <a href="/contact.html" class="btn-soft" data-open-contact>Say hello to Jake <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</div>
+
 <!-- Contact modal -->
 <div class="modal-backdrop" id="contact-backdrop" data-close-on-backdrop>
   <div class="modal modal--contact" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
@@ -289,7 +298,7 @@
       <h2 id="contact-modal-title">Tell us what you&#8217;re working on.</h2>
       <p class="modal-lede">A few details is all we need. No pitch decks, no pressure.</p>
 
-      <form id="contact-form" novalidate>
+      <form id="contact-form" action="/contact.php" method="post">
         <div class="modal-grid">
           <label class="field-label">YOUR NAME
             <input class="field-input" type="text" name="name" id="cf-name" placeholder="Alex Rowe" required autocomplete="name" />
@@ -325,7 +334,7 @@
           <p class="field-hint">We reply within one working day.</p>
           <button type="submit" class="btn-primary" id="cf-submit">Send Message</button>
         </div>
-        <p class="field-error" id="cf-error" hidden>Please add your name and email so we can reply.</p>
+        <p class="field-error" id="cf-error" role="alert" hidden>Please add your name and email so we can reply.</p>
       </form>
     </div>
 
@@ -337,6 +346,7 @@
     </div>
   </div>
 </div>
+
 <!-- Discovery call booking modal -->
 <div class="modal-backdrop" id="discovery-backdrop" data-close-on-backdrop>
   <div class="modal modal--discovery" role="dialog" aria-modal="true" aria-labelledby="discovery-modal-title">
@@ -365,6 +375,7 @@
     </div>
   </div>
 </div>
+
 
 </body>
 </html>

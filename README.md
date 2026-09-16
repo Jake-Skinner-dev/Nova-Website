@@ -1,8 +1,16 @@
 # Nova Social Website
 
-The production website for Nova Social — "Smart. Simple. Social." Built from the
-approved **Nova Social website design** (Claude Design canvas), reproduced as a
-static, framework-light site so it can run on standard shared/cPanel hosting.
+The Nova Social website, redesigned around the existing logo and navy, peach and purple identity. Built with Vite, vanilla HTML, CSS and JavaScript for the existing cPanel hosting.
+
+## Redesign
+
+- New homepage with animated typography, a floating Nova brand composition, a real Ratby campaign showcase, service tabs, process story and social check-up enquiry.
+- Shared visual system across all nine public pages and generated Insights articles.
+- Existing Supabase admin/content, PHP contact endpoint, Google Calendar booking and analytics are retained.
+- A motion pause control is remembered for the tab; the operating system's reduced-motion setting takes precedence. Scroll reveals use IntersectionObserver, with visible content when JavaScript is unavailable.
+- Service tabs support arrow keys and Home/End. Contact and booking dialogs contain keyboard focus and return it to their opener. Mobile navigation closes with Escape.
+- Forms require a valid email and show success only after an explicit successful JSON response. Preview checks simulate responses without sending messages. Real email delivery still requires the PHP-capable host.
+- The existing Ratby campaign artwork is stored as an optimised WebP. No invented client results or testimonials were added.
 
 ## 1. Project overview
 
@@ -19,9 +27,8 @@ static, framework-light site so it can run on standard shared/cPanel hosting.
   by a small Vite plugin (see `vite.config.js`) — edit a partial once and it
   updates on every page. Each page's `<head>` (title, meta description,
   canonical, Open Graph) is unique and lives in that page's own file.
-- Glassmorphism cards, floating hero panels, scroll-reveal animation, a mobile
-  menu, a contact form modal and an article-reader modal for Insights posts.
-- Brand colours: peach `#FEBE98`, dark blue/purple `#4F5277`, near-black `#07080E`.
+- Editorial layouts, purposeful motion, responsive navigation and accessible contact/booking dialogs.
+- Brand colours: peach `#FEBE98`, dark blue/purple `#4F5277`, deep navy `#191A2D`.
 - Fonts: Manrope (headings), Inter (body), loaded from Google Fonts.
 
 ## 2. Framework

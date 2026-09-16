@@ -20,6 +20,7 @@ window.addEventListener("scroll", onScroll, { passive: true });
 onScroll();
 
 function closeMobileNav() {
+  document.body.classList.remove("nav-open");
   mobileNav.classList.remove("is-open");
   navToggle.setAttribute("aria-expanded", "false");
   navToggle.setAttribute("aria-label", "Open menu");
@@ -30,6 +31,7 @@ function closeMobileNav() {
   });
 }
 function openMobileNav() {
+  document.body.classList.add("nav-open");
   mobileNav.classList.add("is-open");
   navToggle.setAttribute("aria-expanded", "true");
   navToggle.setAttribute("aria-label", "Close menu");
@@ -55,46 +57,75 @@ mobileNav.querySelectorAll("[data-mobile-submenu-toggle]").forEach((toggle) => {
 /* ---------------------------------------------------------------------
    Scroll reveal
    --------------------------------------------------------------------- */
-const revealEls = Array.from(document.querySelectorAll("[data-reveal]"));
-
-function armReveal() {
-  const vh = window.innerHeight || 800;
-  revealEls.forEach((el) => {
-    if (el.classList.contains("is-in")) return;
-    const r = el.getBoundingClientRect();
-    if (r.top > vh * 0.94) el.classList.add("is-armed");
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
+function checkReveal() {} // Kept for content refresh callers; IntersectionObserver owns reveals.
+if ('IntersectionObserver' in window && !motionPreference.matches) {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(({target, isIntersecting}) => {
+      if (!isIntersecting) return;
+      target.classList.remove('is-armed'); target.classList.add('is-in'); observer.unobserve(target);
+    });
+  }, {threshold: 0.08});
+  revealEls.forEach(element => {
+    if (element.getBoundingClientRect().top > window.innerHeight) element.classList.add('is-armed');
+    observer.observe(element);
   });
 }
-function checkReveal() {
-  const vh = window.innerHeight || 800;
-  revealEls.forEach((el) => {
-    if (el.classList.contains("is-in")) return;
-    const r = el.getBoundingClientRect();
-    if (r.top < vh * 0.94 && r.bottom > 0) {
-      el.classList.remove("is-armed");
-      el.classList.add("is-in");
-    }
-  });
+// Pausing is persistent for this tab, and the OS preference remains authoritative.
+const motionToggle = document.getElementById('motion-toggle');
+let motionPaused = false;
+try { motionPaused = sessionStorage.getItem('nova-motion-paused') === 'true'; } catch {}
+function applyMotion() {
+  const paused = motionPaused || motionPreference.matches;
+  document.documentElement.classList.toggle('motion-paused', paused);
+  if (motionToggle) {
+    motionToggle.setAttribute('aria-pressed', String(paused));
+    motionToggle.textContent = motionPreference.matches ? 'Reduced motion on' : paused ? 'Resume motion ▷' : 'Pause motion Ⅱ';
+    motionToggle.disabled = motionPreference.matches;
+  }
 }
-armReveal();
-requestAnimationFrame(() => {
-  armReveal();
-  checkReveal();
+motionToggle?.addEventListener('click', () => {
+  motionPaused = !motionPaused;
+  try { sessionStorage.setItem('nova-motion-paused', String(motionPaused)); } catch {}
+  applyMotion();
 });
-window.addEventListener("scroll", checkReveal, { passive: true });
-window.addEventListener("resize", checkReveal);
-// Safety net: if reveal never triggers (e.g. very short pages), show everything.
-setTimeout(() => {
-  checkReveal();
-  revealEls.forEach((el) => el.classList.add("is-in"));
-}, 2000);
+motionPreference.addEventListener('change', applyMotion);
+applyMotion();
+
+// Manual navigation and keyboard activation share the same tab state.
+const serviceTabs = [...document.querySelectorAll('.service-choice[role="tab"]')];
+function selectService(tab) {
+  serviceTabs.forEach(item => {
+    const active = item === tab;
+    item.setAttribute('aria-selected', String(active));
+    item.tabIndex = active ? 0 : -1;
+    document.getElementById(item.getAttribute('aria-controls')).hidden = !active;
+  });
+}
+serviceTabs.forEach((tab, index) => {
+  tab.addEventListener('click', () => selectService(tab));
+  tab.addEventListener('keydown', event => {
+    let next;
+    if (event.key === 'ArrowDown') next = (index + 1) % serviceTabs.length;
+    if (event.key === 'ArrowUp') next = (index - 1 + serviceTabs.length) % serviceTabs.length;
+    if (event.key === 'Home') next = 0;
+    if (event.key === 'End') next = serviceTabs.length - 1;
+    if (next === undefined) return;
+    event.preventDefault(); selectService(serviceTabs[next]); serviceTabs[next].focus();
+  });
+});
 
 /* ---------------------------------------------------------------------
    Modal helpers
    --------------------------------------------------------------------- */
 const openBackdrops = [];
+const modalTriggers = new WeakMap();
 
 function openModal(backdrop) {
+  if (!backdrop || openBackdrops.includes(backdrop)) return;
+  modalTriggers.set(backdrop, document.activeElement);
+  closeMobileNav();
   backdrop.classList.add("is-open");
   openBackdrops.push(backdrop);
   document.body.style.overflow = "hidden";
@@ -102,10 +133,12 @@ function openModal(backdrop) {
   if (closeBtn) closeBtn.focus();
 }
 function closeModal(backdrop) {
+  if (!backdrop || !backdrop.classList.contains("is-open")) return;
   backdrop.classList.remove("is-open");
   const idx = openBackdrops.indexOf(backdrop);
   if (idx !== -1) openBackdrops.splice(idx, 1);
   if (openBackdrops.length === 0) document.body.style.overflow = "";
+  modalTriggers.get(backdrop)?.focus();
 }
 function closeTopModal() {
   const top = openBackdrops[openBackdrops.length - 1];
@@ -113,7 +146,17 @@ function closeTopModal() {
 }
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeTopModal();
+  if (e.key === "Escape") {
+    if (openBackdrops.length) closeTopModal();
+    else if (mobileNav.classList.contains('is-open')) { closeMobileNav(); navToggle.focus(); }
+  }
+  const scope = openBackdrops.at(-1) || (mobileNav.classList.contains('is-open') ? mobileNav : null);
+  if (e.key !== 'Tab' || !scope) return;
+  const controls = [...scope.querySelectorAll('a[href],button,input,select,textarea,iframe,[tabindex="0"]')].filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');
+  if (scope === mobileNav) controls.unshift(navToggle);
+  const first = controls[0], last = controls.at(-1);
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
 });
 
 document.querySelectorAll(".modal-backdrop[data-close-on-backdrop]").forEach((backdrop) => {
@@ -131,6 +174,11 @@ document.querySelectorAll("[data-close-modal]").forEach((btn) => {
 /* ---------------------------------------------------------------------
    Contact modal
    --------------------------------------------------------------------- */
+const teamBackdrop = document.getElementById("team-backdrop");
+document.querySelectorAll("[data-open-team]").forEach((trigger) => {
+  trigger.addEventListener("click", () => openModal(teamBackdrop));
+});
+
 const contactBackdrop = document.getElementById("contact-backdrop");
 const contactForm = document.getElementById("contact-form");
 const contactFormPanel = document.getElementById("contact-form-panel");
@@ -140,6 +188,7 @@ const contactSubmit = document.getElementById("cf-submit");
 const articleBackdrop = document.getElementById("article-backdrop");
 
 function openContact(prefillNeed) {
+  if (teamBackdrop) closeModal(teamBackdrop);
   if (articleBackdrop) closeModal(articleBackdrop);
   if (discoveryBackdrop) closeModal(discoveryBackdrop);
   contactFormPanel.hidden = false;
@@ -156,7 +205,7 @@ function openContact(prefillNeed) {
 document.querySelectorAll("[data-open-contact]").forEach((el) => {
   el.addEventListener("click", (e) => {
     e.preventDefault();
-    openContact();
+    openContact(el.dataset.need);
   });
 });
 
@@ -213,7 +262,8 @@ if (contactForm) {
         body: payload,
         headers: { Accept: "application/json" }
       });
-      const ok = res.ok && (await res.json().catch(() => ({ success: true }))).success !== false;
+      const response = await res.json();
+      const ok = res.ok && response.success === true;
       if (!ok) throw new Error("Send failed");
       contactFormPanel.hidden = true;
       contactSuccess.hidden = false;
@@ -326,7 +376,7 @@ async function loadContent() {
   if (workGrid) {
     workGrid.innerHTML = "";
     if (campaignsRes.error || !campaignsRes.data?.length) {
-      workGrid.replaceChildren();
+      workGrid.appendChild(el("p", "content-status", campaignsRes.error ? "More project details are temporarily unavailable. You can still explore our featured Ratby project above." : "Explore our featured Ratby project above, or get in touch to discuss your brand."));
     } else {
       campaignsRes.data.forEach((c) => workGrid.appendChild(renderWorkCard(c)));
     }
@@ -334,7 +384,9 @@ async function loadContent() {
 
   if (insightsGrid) {
     insightsGrid.innerHTML = "";
-    if (!articlesRes.error && articlesRes.data) {
+    if (articlesRes.error || !articlesRes.data?.length) {
+      insightsGrid.appendChild(el("p", "content-status", "Our insights are temporarily unavailable. Please try again shortly, or visit Nova Social on LinkedIn for our latest thinking."));
+    } else {
       articlesRes.data.forEach((a) => insightsGrid.appendChild(renderInsightCard(a)));
     }
   }
@@ -344,7 +396,11 @@ async function loadContent() {
   // anything already in view is shown rather than waiting on a scroll event.
   checkReveal();
 }
-loadContent();
+loadContent().catch(() => {
+  [workGrid, insightsGrid].filter(Boolean).forEach(grid => {
+    grid.replaceChildren(el("p", "content-status", "This content is temporarily unavailable. Please try again shortly."));
+  });
+});
 
 /* ---------------------------------------------------------------------
    Misc
@@ -356,5 +412,7 @@ if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 // this is a static match rather than a scroll-position calculation).
 const currentPage = document.body.dataset.page || "home";
 document.querySelectorAll(".nav-links a[data-page], .mobile-nav a[data-page]").forEach((a) => {
-  a.classList.toggle("is-active", a.dataset.page === currentPage);
+  const active = a.dataset.page === currentPage;
+  a.classList.toggle("is-active", active);
+  if (active) a.setAttribute("aria-current", "page");
 });

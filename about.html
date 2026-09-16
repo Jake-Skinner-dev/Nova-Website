@@ -37,26 +37,31 @@
         <span class="eyebrow">ABOUT NOVA</span>
         <span class="rule"></span>
       </div>
-      <h1 class="section-title" id="about-heading">Creative Thinking. Clear Strategy.</h1>
-      <p class="section-lede">How Nova Social approaches marketing, branding and social media.</p>
+      <h1 class="section-title" id="about-heading">Big on ideas.<br>Personal by nature.</h1>
+      <p class="section-lede">Get to know the people, ideas and care behind your next chapter.</p>
     </section>
 
-    <section data-reveal>
+    <section data-reveal aria-labelledby="our-story-heading">
       <div class="about">
+        <div><p class="kicker">FOUNDED OCTOBER 2025</p><h2 id="our-story-heading">Built on connection.</h2></div>
         <div>
-          <div class="about-tags">
-            <span>Creativity</span>
-            <span>Integrity</span>
-            <span>Collaboration</span>
-            <span>Innovation</span>
-            <span>Quality</span>
+          <p>Founded in October 2025, Nova Social was built around a simple idea: marketing should help businesses communicate better, not make things more complicated.</p>
+          <p>We like to start by listening. Whether you’re growing a business, sharing your work or bringing a club together, we take the time to understand what matters to you before we make a plan.</p>
+          <div class="about-tags" aria-label="Our values"><span>Creativity</span><span>Integrity</span><span>Collaboration</span><span>Innovation</span><span>Quality</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="team-section" data-reveal aria-labelledby="team-heading">
+      <div class="team-layout">
+        <div class="team-intro"><p class="kicker">THE PEOPLE BEHIND NOVA</p><h2 id="team-heading">Meet the team.</h2><p>A name, a face and a conversation.<br>Get to know who’s behind the work.</p></div>
+        <button type="button" class="team-profile team-contact" data-open-team aria-haspopup="dialog" aria-controls="team-backdrop" aria-label="Meet Jake Skinner, Managing Director">
+          <div class="team-profile-head">
+            <img src="/assets/jake-skinner-navy.webp" alt="" width="600" height="600" loading="lazy" decoding="async" />
+            <div><h3 class="team-name" id="jake-name">Jake Skinner</h3><p class="team-role">Managing Director</p></div>
           </div>
-        </div>
-        <div>
-          <p>Nova Social was built around a simple idea: marketing should help businesses communicate better, not make things more complicated.</p>
-          <p>We combine creativity, strategy and modern tools to help businesses and creators build stronger brands and grow their online presence.</p>
-          <p>Our approach is built around creativity, integrity, collaboration, innovation and consistent quality.</p>
-        </div>
+          <span class="team-contact-hint" aria-hidden="true">Meet Jake ↗</span>
+        </button>
       </div>
     </section>
 
@@ -65,7 +70,7 @@
         <div>
           <h2 id="process-heading">We Work With You,<br />Not Just For You.</h2>
           <p class="lede">The strongest marketing comes from understanding the people behind the brand.</p>
-          <p class="lede">We work closely with every client to understand their goals, audience and vision before creating a strategy around them.</p>
+          <p class="lede">We work closely with every client to understand their goals, audience and vision before creating a strategy around them.</p><div class="inline-action"><a href="/contact.html" class="btn-soft" data-open-contact>Tell us about your business <span aria-hidden="true">↗</span></a></div>
         </div>
         <div class="process-steps">
           <div class="process-step">
@@ -153,6 +158,21 @@
 </main>
 
 <!--@include footer-->
+<div class="modal-backdrop" id="team-backdrop" data-close-on-backdrop>
+  <div class="modal modal--team" role="dialog" aria-modal="true" aria-labelledby="team-modal-title">
+    <button type="button" class="modal-close" data-close-modal aria-label="Close Jake’s profile">&#215;</button>
+    <div class="modal-body">
+      <div class="modal-eyebrow">MEET THE TEAM</div>
+      <h2 id="team-modal-title">Jake Skinner</h2>
+      <p class="team-modal-role">Managing Director</p>
+      <h3 class="team-modal-heading">Why I started Nova</h3>
+      <p class="team-modal-copy">I started Nova because I felt there was room for a more creative, considered and professional approach to marketing. I wanted to build a business where the work catches your eye and the experience feels personal.</p>
+      <p class="team-modal-copy">For me, that means taking the time to understand each brand, caring about the details and creating something people want to connect with. That’s the standard I want Nova to bring to every project.</p>
+      <a href="/contact.html" class="btn-soft" data-open-contact>Say hello to Jake <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</div>
+
 <!--@include modal-contact-->
 <!--@include modal-discovery-->
 
