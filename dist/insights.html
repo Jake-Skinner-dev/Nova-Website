@@ -45,16 +45,14 @@
   gtag('config', 'G-3HV4TL91B1');
 </script>
 
-  <script type="module" crossorigin src="./assets/main-DdctQ7Ht.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-DP6kLoWf.css">
+
+  <script type="module" crossorigin src="./assets/main-DfD9AZHd.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/main-DL2VlgN2.css">
 </head>
 <body data-page="insights">
 <a class="skip-link" href="#main-content">Skip to content</a>
 
-<div class="bg-glow" aria-hidden="true">
-  <span class="glow-a"></span>
-  <span class="glow-b"></span>
-</div>
+
 
 <header class="site-header" id="site-header">
   <nav class="nav" aria-label="Primary">
@@ -81,7 +79,7 @@
       <a href="/about.html" data-page="about">About</a>
       <a href="/contact.html" data-page="contact">Contact</a>
     </div>
-    <a href="#contact" class="btn-cta" data-open-contact>Work With Nova</a>
+    <a href="/contact.html" class="btn-cta" data-open-contact>Let’s talk <span aria-hidden="true">↗</span></a>
     <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
@@ -109,8 +107,9 @@
   <a href="/insights.html" data-page="insights">Insights</a>
   <a href="/about.html" data-page="about">About</a>
   <a href="/contact.html" data-page="contact">Contact</a>
-  <a href="#contact" class="btn-cta" data-open-contact>Work With Nova</a>
+  <a href="/contact.html" class="btn-cta" data-open-contact>Let’s talk <span aria-hidden="true">↗</span></a>
 </div>
+
 
 <main id="main-content">
   <div class="container">
@@ -127,16 +126,8 @@
       <div class="insights-grid" id="insights-grid"></div>
     </section>
 
-    <section id="contact" data-reveal aria-labelledby="contact-heading">
-  <div class="contact-cta">
-    <h2 id="contact-heading">Ready To Build Something Better?</h2>
-    <p>Whether you need help managing your social media, strengthening your brand or building a clearer marketing strategy, we&#8217;d love to hear what you&#8217;re working on.</p>
-    <div class="row">
-      <button type="button" class="btn-primary is-large" data-open-discovery>Start A Conversation</button>
-      <a href="/contact.html" class="btn-ghost is-large">Get In Touch</a>
-    </div>
-  </div>
-</section>
+    <section class="closing-section" id="contact" data-reveal aria-labelledby="contact-heading"><div class="contact-cta"><p class="kicker">YOUR NEXT CHAPTER STARTS HERE.</p><h2 id="contact-heading">Let’s make<br><span>an impression.</span></h2><div class="row"><a href="/contact.html" class="btn-primary is-large" data-open-contact>Tell us what you’re thinking <span aria-hidden="true">↗</span></a><button type="button" class="btn-ghost is-large" data-open-discovery>Book a discovery call</button></div><p>Good conversations. Clear ideas. No pressure.</p></div></section>
+
   </div>
 </main>
 
@@ -147,7 +138,7 @@
         <div class="footer-brand-mark">
           <img src="./assets/nova-logo-trimmed.png" alt="Nova Social" width="354" height="154" />
         </div>
-        <p class="footer-tagline">Smart. Simple. Social.</p>
+        <p class="footer-tagline">Smart. Simple. Social.</p><p class="footer-location">Independent thinking.<br>Based in Leicester. Built around you.</p>
       </div>
       <div class="footer-col">
         <span class="heading">SITE</span>
@@ -169,13 +160,11 @@
         <a href="/admin/" class="admin-dot" title="Admin" aria-label="Site admin"></a>
         &#169; <span id="footer-year">2026</span> Nova Social. All rights reserved.
       </span>
-      <div class="legal-links">
-        <a href="#contact" data-open-contact>Privacy Policy</a>
-        <a href="#contact" data-open-contact>Terms</a>
-      </div>
+      <div class="legal-links"><a href="mailto:jake@novasocial.co.uk">jake@novasocial.co.uk ↗</a><a href="#main-content">Back to top ↑</a></div>
     </div>
   </div>
 </footer>
+
 <!-- Contact modal -->
 <div class="modal-backdrop" id="contact-backdrop" data-close-on-backdrop>
   <div class="modal modal--contact" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
@@ -186,7 +175,7 @@
       <h2 id="contact-modal-title">Tell us what you&#8217;re working on.</h2>
       <p class="modal-lede">A few details is all we need. No pitch decks, no pressure.</p>
 
-      <form id="contact-form" novalidate>
+      <form id="contact-form" action="/contact.php" method="post">
         <div class="modal-grid">
           <label class="field-label">YOUR NAME
             <input class="field-input" type="text" name="name" id="cf-name" placeholder="Alex Rowe" required autocomplete="name" />
@@ -222,7 +211,7 @@
           <p class="field-hint">We reply within one working day.</p>
           <button type="submit" class="btn-primary" id="cf-submit">Send Message</button>
         </div>
-        <p class="field-error" id="cf-error" hidden>Please add your name and email so we can reply.</p>
+        <p class="field-error" id="cf-error" role="alert" hidden>Please add your name and email so we can reply.</p>
       </form>
     </div>
 
@@ -234,6 +223,7 @@
     </div>
   </div>
 </div>
+
 <!-- Discovery call booking modal -->
 <div class="modal-backdrop" id="discovery-backdrop" data-close-on-backdrop>
   <div class="modal modal--discovery" role="dialog" aria-modal="true" aria-labelledby="discovery-modal-title">
@@ -262,6 +252,7 @@
     </div>
   </div>
 </div>
+
 
 </body>
 </html>
