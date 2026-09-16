@@ -2107,3 +2107,10 @@ section { padding: 30px 0 120px; }
   .team-profile img { width: 90px; height: 90px; flex-basis: 90px; }
   .team-name { font-size: 18px; }
 }
+
+/* Keep the services invitation close to the final service. */
+.services-list { padding-bottom: 0; }
+body[data-page="services"] .closing-section { padding-top: 48px; }
+@media (max-width: 760px) {
+  body[data-page="services"] .closing-section { padding-top: 36px; }
+}
