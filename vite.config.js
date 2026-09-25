@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 
-// Multi-page build: nine static HTML entries (see rollupOptions.input below),
+// Multi-page build: ten static HTML entries (see rollupOptions.input below),
 // each pulling shared header/footer/modal markup from src/partials/ via the
 // htmlPartials plugin. Deployed here on the `dev` branch to Vercel.
 
@@ -43,6 +43,7 @@ export default defineConfig({
         marketing: fileURLToPath(new URL("./marketing.html", import.meta.url)),
         branding: fileURLToPath(new URL("./branding.html", import.meta.url)),
         socialMedia: fileURLToPath(new URL("./social-media.html", import.meta.url)),
+        sportsClubWebsites: fileURLToPath(new URL("./sports-club-websites.html", import.meta.url)),
         work: fileURLToPath(new URL("./work.html", import.meta.url)),
         insights: fileURLToPath(new URL("./insights.html", import.meta.url)),
         about: fileURLToPath(new URL("./about.html", import.meta.url)),
