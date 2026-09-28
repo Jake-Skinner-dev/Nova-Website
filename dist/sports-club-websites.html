@@ -45,8 +45,8 @@
   gtag('config', 'G-3HV4TL91B1');
 </script>
 
-  <script type="module" crossorigin src="./assets/main-kkGDsjdz.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/main-Bbee3n8m.css">
+  <script type="module" crossorigin src="./assets/main-DZ3H2ELz.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/main-B1UCZrbu.css">
 </head>
 <body data-page="services">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -215,10 +215,6 @@
         </div>
         <div class="showcase-browser">
           <div class="browser-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
-          <img src="./assets/work/ratby-squad.jpg" alt="Ratby Sunday FC squad page with player profile card" loading="lazy" width="1600" height="1218" />
-        </div>
-        <div class="showcase-browser">
-          <div class="browser-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
           <img src="./assets/work/ratby-gallery.jpg" alt="Ratby Sunday FC photo gallery page" loading="lazy" width="1600" height="1218" />
         </div>
         <div class="showcase-browser">
@@ -233,18 +229,35 @@
         <span class="eyebrow">BUILT-IN, NOT BOLTED ON</span>
         <span class="rule"></span>
       </div>
-      <h2 class="section-title" id="live-demo-heading">Little Touches That Make It Feel Alive.</h2>
-      <p class="section-lede">A live countdown to kick-off, right on the homepage &mdash; the kind of detail we build into every club site, like the one running on Ratby Sunday&#8217;s site right now.</p>
+      <h2 class="section-title" id="live-demo-heading">This Page Has A Pulse.</h2>
+      <p class="section-lede">Not just static pages &mdash; a scrolling results ticker and a live countdown, both moving right now, on this page. The same kind of build quality goes into every club site.</p>
+
+      <div class="ticker-demo" aria-hidden="true">
+        <div class="ticker-demo-track">
+          <span>RATBY SUNDAY 3&ndash;3 ABBEY VIKINGS</span>
+          <span class="ticker-dot">&#9679;</span>
+          <span>COUNTESTHORPE C.F 2&ndash;1 RATBY SUNDAY</span>
+          <span class="ticker-dot">&#9679;</span>
+          <span>RATBY SUNDAY 5&ndash;0 WILLOW FC</span>
+          <span class="ticker-dot">&#9679;</span>
+          <span>RATBY SUNDAY 3&ndash;3 ABBEY VIKINGS</span>
+          <span class="ticker-dot">&#9679;</span>
+          <span>COUNTESTHORPE C.F 2&ndash;1 RATBY SUNDAY</span>
+          <span class="ticker-dot">&#9679;</span>
+          <span>RATBY SUNDAY 5&ndash;0 WILLOW FC</span>
+          <span class="ticker-dot">&#9679;</span>
+        </div>
+      </div>
 
       <div class="kickoff-demo">
-        <div class="kickoff-demo-label">NEXT MATCH &middot; SUNDAY, 10:30AM</div>
+        <div class="kickoff-demo-label"><span class="live-dot" aria-hidden="true"></span>NEXT MATCH &middot; SUNDAY, 10:30AM</div>
         <div class="kickoff-demo-timer" id="kickoff-timer">
           <div class="kickoff-unit"><span class="kickoff-num" data-unit="days">00</span><span class="kickoff-label">Days</span></div>
           <div class="kickoff-unit"><span class="kickoff-num" data-unit="hours">00</span><span class="kickoff-label">Hrs</span></div>
           <div class="kickoff-unit"><span class="kickoff-num" data-unit="minutes">00</span><span class="kickoff-label">Min</span></div>
           <div class="kickoff-unit"><span class="kickoff-num" data-unit="seconds">00</span><span class="kickoff-label">Sec</span></div>
         </div>
-        <p class="kickoff-demo-caption">This one updates live, every second &mdash; no page refresh needed.</p>
+        <p class="kickoff-demo-caption">Both update live, every second &mdash; no page refresh needed.</p>
       </div>
     </section>
 
@@ -431,6 +444,9 @@
       nums.hours.textContent = pad(hours);
       nums.minutes.textContent = pad(minutes);
       nums.seconds.textContent = pad(seconds);
+      nums.seconds.classList.remove("is-pulse");
+      void nums.seconds.offsetWidth;
+      nums.seconds.classList.add("is-pulse");
     }
     tick();
     setInterval(tick, 1000);

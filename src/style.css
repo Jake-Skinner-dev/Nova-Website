@@ -503,14 +503,49 @@ section { padding: 30px 0 120px; }
   margin-left: 8px; font-family: var(--font-mono); font-size: 11.5px; color: rgba(238, 240, 246, 0.5);
 }
 .showcase-browser img { display: block; width: 100%; height: auto; }
-.showcase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+.showcase-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 16px; }
 
 .kickoff-demo {
   padding: 44px 36px; border-radius: 24px; border: 1px solid var(--border);
   background: var(--surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   text-align: center;
 }
-.kickoff-demo-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; color: var(--peach); margin-bottom: 20px; }
+.kickoff-demo-label {
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; color: var(--peach); margin-bottom: 20px;
+}
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--peach); animation: live-pulse 1.6s ease-in-out infinite; }
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(254, 190, 152, 0.5); }
+  50% { opacity: 0.5; box-shadow: 0 0 0 6px rgba(254, 190, 152, 0); }
+}
+.kickoff-num.is-pulse { animation: kickoff-pulse 1000ms ease-out; }
+@keyframes kickoff-pulse {
+  0% { transform: scale(1.18); color: var(--peach-hover); }
+  100% { transform: scale(1); color: var(--peach); }
+}
+
+/* Scrolling results ticker */
+.ticker-demo {
+  overflow: hidden; border-radius: 14px; border: 1px solid rgba(254, 190, 152, 0.24);
+  background: linear-gradient(90deg, rgba(254, 190, 152, 0.14), rgba(79, 82, 119, 0.14));
+  margin: 30px 0; padding: 14px 0;
+}
+.ticker-demo-track {
+  display: inline-flex; align-items: center; gap: 14px; white-space: nowrap;
+  font-family: var(--font-mono); font-weight: 700; font-size: 13.5px; letter-spacing: 0.04em; color: var(--text);
+  animation: ticker-scroll 22s linear infinite;
+  padding-left: 100%;
+}
+.ticker-demo-track .ticker-dot { color: var(--peach); font-size: 8px; }
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-demo-track { animation: none; }
+  .live-dot, .kickoff-num.is-pulse { animation: none; }
+}
 .kickoff-demo-timer { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
 .kickoff-unit {
   min-width: 84px; padding: 18px 10px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
