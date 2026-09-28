@@ -108,6 +108,62 @@
       </div>
     </section>
 
+    <section data-reveal aria-labelledby="showcase-heading">
+      <div class="eyebrow-rule">
+        <span class="eyebrow">REAL CLIENT, REAL SITE</span>
+        <span class="rule"></span>
+      </div>
+      <h2 class="section-title" id="showcase-heading">See It In Action.</h2>
+      <p class="section-lede">We built this exact package for <a href="https://www.ratbysundayfc.xyz/" target="_blank" rel="noopener">Ratby Sunday FC</a>, a grassroots Sunday league club &mdash; fixtures, squad, gallery, sponsors and results, all live right now.</p>
+
+      <div class="showcase-browser showcase-browser--main">
+        <div class="browser-bar">
+          <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+          <span class="browser-url">ratbysundayfc.xyz</span>
+        </div>
+        <img src="/assets/work/ratby-hero.jpg" alt="Ratby Sunday FC homepage, built by Nova Social, showing a live countdown to their next match" loading="lazy" width="1600" height="1218" />
+      </div>
+
+      <div class="showcase-strip">
+        <div class="showcase-browser">
+          <div class="browser-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+          <img src="/assets/work/ratby-fixtures.jpg" alt="Ratby Sunday FC fixtures and results page" loading="lazy" width="1600" height="1218" />
+        </div>
+        <div class="showcase-browser">
+          <div class="browser-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+          <img src="/assets/work/ratby-squad.jpg" alt="Ratby Sunday FC squad page with player profile card" loading="lazy" width="1600" height="1218" />
+        </div>
+        <div class="showcase-browser">
+          <div class="browser-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+          <img src="/assets/work/ratby-gallery.jpg" alt="Ratby Sunday FC photo gallery page" loading="lazy" width="1600" height="1218" />
+        </div>
+        <div class="showcase-browser">
+          <div class="browser-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span></div>
+          <img src="/assets/work/ratby-sponsors.jpg" alt="Ratby Sunday FC sponsors page" loading="lazy" width="1600" height="1218" />
+        </div>
+      </div>
+    </section>
+
+    <section data-reveal aria-labelledby="live-demo-heading">
+      <div class="eyebrow-rule">
+        <span class="eyebrow">BUILT-IN, NOT BOLTED ON</span>
+        <span class="rule"></span>
+      </div>
+      <h2 class="section-title" id="live-demo-heading">Little Touches That Make It Feel Alive.</h2>
+      <p class="section-lede">A live countdown to kick-off, right on the homepage &mdash; the kind of detail we build into every club site, like the one running on Ratby Sunday&#8217;s site right now.</p>
+
+      <div class="kickoff-demo">
+        <div class="kickoff-demo-label">NEXT MATCH &middot; SUNDAY, 10:30AM</div>
+        <div class="kickoff-demo-timer" id="kickoff-timer">
+          <div class="kickoff-unit"><span class="kickoff-num" data-unit="days">00</span><span class="kickoff-label">Days</span></div>
+          <div class="kickoff-unit"><span class="kickoff-num" data-unit="hours">00</span><span class="kickoff-label">Hrs</span></div>
+          <div class="kickoff-unit"><span class="kickoff-num" data-unit="minutes">00</span><span class="kickoff-label">Min</span></div>
+          <div class="kickoff-unit"><span class="kickoff-num" data-unit="seconds">00</span><span class="kickoff-label">Sec</span></div>
+        </div>
+        <p class="kickoff-demo-caption">This one updates live, every second &mdash; no page refresh needed.</p>
+      </div>
+    </section>
+
     <section data-reveal aria-labelledby="other-services-heading">
       <div class="eyebrow-rule">
         <span class="eyebrow">MORE SERVICES</span>
@@ -132,5 +188,42 @@
 <!--@include modal-discovery-->
 
 <script src="/src/main.js" type="module"></script>
+<script>
+  (function () {
+    var timer = document.getElementById("kickoff-timer");
+    if (!timer) return;
+    var nums = {
+      days: timer.querySelector('[data-unit="days"]'),
+      hours: timer.querySelector('[data-unit="hours"]'),
+      minutes: timer.querySelector('[data-unit="minutes"]'),
+      seconds: timer.querySelector('[data-unit="seconds"]')
+    };
+    function nextKickoff() {
+      var now = new Date();
+      var next = new Date(now);
+      next.setHours(10, 30, 0, 0);
+      var daysUntilSunday = (7 - next.getDay()) % 7;
+      if (daysUntilSunday === 0 && next <= now) daysUntilSunday = 7;
+      next.setDate(next.getDate() + daysUntilSunday);
+      return next;
+    }
+    var target = nextKickoff();
+    function pad(n) { return String(n).padStart(2, "0"); }
+    function tick() {
+      var diff = target - new Date();
+      if (diff <= 0) { target = nextKickoff(); diff = target - new Date(); }
+      var days = Math.floor(diff / 86400000);
+      var hours = Math.floor((diff % 86400000) / 3600000);
+      var minutes = Math.floor((diff % 3600000) / 60000);
+      var seconds = Math.floor((diff % 60000) / 1000);
+      nums.days.textContent = pad(days);
+      nums.hours.textContent = pad(hours);
+      nums.minutes.textContent = pad(minutes);
+      nums.seconds.textContent = pad(seconds);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
 </body>
 </html>

@@ -486,6 +486,40 @@ section { padding: 30px 0 120px; }
 }
 .insight-card .read-more:hover { color: var(--peach-hover); }
 
+/* ---------------------------------------------------------------------
+   Sports club showcase (client site screenshots + live kickoff demo)
+   --------------------------------------------------------------------- */
+.showcase-browser {
+  border-radius: 18px; overflow: hidden; border: 1px solid var(--border);
+  background: var(--surface); box-shadow: 0 24px 56px rgba(0, 0, 0, 0.4);
+}
+.showcase-browser--main { margin-top: 30px; }
+.showcase-browser .browser-bar {
+  display: flex; align-items: center; gap: 6px; padding: 11px 14px;
+  background: rgba(255, 255, 255, 0.04); border-bottom: 1px solid var(--border);
+}
+.showcase-browser .browser-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); }
+.showcase-browser .browser-url {
+  margin-left: 8px; font-family: var(--font-mono); font-size: 11.5px; color: rgba(238, 240, 246, 0.5);
+}
+.showcase-browser img { display: block; width: 100%; height: auto; }
+.showcase-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
+
+.kickoff-demo {
+  padding: 44px 36px; border-radius: 24px; border: 1px solid var(--border);
+  background: var(--surface); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  text-align: center;
+}
+.kickoff-demo-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; color: var(--peach); margin-bottom: 20px; }
+.kickoff-demo-timer { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.kickoff-unit {
+  min-width: 84px; padding: 18px 10px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
+}
+.kickoff-num { display: block; font-family: var(--font-heading); font-weight: 800; font-size: clamp(26px, 4vw, 38px); color: var(--peach); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.kickoff-label { display: block; margin-top: 4px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; color: rgba(238, 240, 246, 0.55); }
+.kickoff-demo-caption { margin: 22px 0 0; font-size: 15px; color: var(--text-muted); }
+
 /* Checkup CTA band */
 .checkup-panel {
   padding: 56px 48px; border-radius: 28px; border: 1px solid rgba(254, 190, 152, 0.24);
@@ -676,6 +710,7 @@ section { padding: 30px 0 120px; }
   .service-card, .ai-grid, .process, .story, .about, .checkup-grid, .partnership { grid-template-columns: 1fr; }
   .story-grid { order: -1; }
   .work-grid, .insights-grid, .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  .showcase-strip { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 1000px) {
@@ -727,6 +762,10 @@ section { padding: 30px 0 120px; }
   .hero { padding: 130px 0 70px; }
   section { padding: 20px 0 80px; }
   .pillars-grid, .work-grid, .insights-grid { grid-template-columns: 1fr; }
+  .showcase-strip { grid-template-columns: 1fr; }
+  .kickoff-demo { padding: 32px 22px; }
+  .kickoff-demo-timer { gap: 10px; }
+  .kickoff-unit { min-width: 68px; padding: 14px 6px; }
   .service-card { padding: 28px 24px; gap: 28px; }
   .service-tags { grid-template-columns: 1fr; }
   .ai-panel, .checkup-panel, .partnership { padding: 32px 24px; }
